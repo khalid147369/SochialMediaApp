@@ -1,0 +1,10 @@
+:where(.css-dev-only-do-not-override-161f05s).ant-upload-wrapper.ant-upload-picture-card-wrapper .ant-upload.ant-upload-select {
+  width: 70px; /* Customize width */
+  height: 55px; /* Customize height */
+}
+
+.no-scroll {
+  overflow: hidden;
+  background-color: red;
+  /* background-color: rgba(139, 180, 240, 0.224); */
+}
