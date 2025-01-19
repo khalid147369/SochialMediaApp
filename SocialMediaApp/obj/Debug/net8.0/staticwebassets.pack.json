@@ -1,0 +1,53 @@
+{
+  "Files": [
+    {
+      "Id": "C:\\Users\\pc\\source\\repos\\SocialMediaApp\\SocialMediaApp\\wwwroot\\uploads\\2320a4d0-cd67-43df-8f59-eb7ff2628a91.jpg",
+      "PackagePath": "staticwebassets\\uploads\\2320a4d0-cd67-43df-8f59-eb7ff2628a91.jpg"
+    },
+    {
+      "Id": "C:\\Users\\pc\\source\\repos\\SocialMediaApp\\SocialMediaApp\\wwwroot\\uploads\\3e58a339-752d-42af-a089-d70b5c777824.jpg",
+      "PackagePath": "staticwebassets\\uploads\\3e58a339-752d-42af-a089-d70b5c777824.jpg"
+    },
+    {
+      "Id": "C:\\Users\\pc\\source\\repos\\SocialMediaApp\\SocialMediaApp\\wwwroot\\uploads\\526f00b6-6408-4316-9f25-aaef2c3b2177.jpg",
+      "PackagePath": "staticwebassets\\uploads\\526f00b6-6408-4316-9f25-aaef2c3b2177.jpg"
+    },
+    {
+      "Id": "C:\\Users\\pc\\source\\repos\\SocialMediaApp\\SocialMediaApp\\wwwroot\\uploads\\8cf73f78-c30c-4522-bb36-3afd17d85126.jpg",
+      "PackagePath": "staticwebassets\\uploads\\8cf73f78-c30c-4522-bb36-3afd17d85126.jpg"
+    },
+    {
+      "Id": "C:\\Users\\pc\\source\\repos\\SocialMediaApp\\SocialMediaApp\\wwwroot\\uploads\\avatars\\5223ae71-9252-4aed-8525-dfb62e5619c3.jpg",
+      "PackagePath": "staticwebassets\\uploads\\avatars\\5223ae71-9252-4aed-8525-dfb62e5619c3.jpg"
+    },
+    {
+      "Id": "C:\\Users\\pc\\source\\repos\\SocialMediaApp\\SocialMediaApp\\wwwroot\\uploads\\avatars\\7abb2b8d-d14f-479d-8462-7825bf019ba2.png",
+      "PackagePath": "staticwebassets\\uploads\\avatars\\7abb2b8d-d14f-479d-8462-7825bf019ba2.png"
+    },
+    {
+      "Id": "C:\\Users\\pc\\source\\repos\\SocialMediaApp\\SocialMediaApp\\wwwroot\\uploads\\avatars\\f90119c1-42d2-4c3f-9592-4c0a9ce343eb.jpeg",
+      "PackagePath": "staticwebassets\\uploads\\avatars\\f90119c1-42d2-4c3f-9592-4c0a9ce343eb.jpeg"
+    },
+    {
+      "Id": "C:\\Users\\pc\\source\\repos\\SocialMediaApp\\SocialMediaApp\\wwwroot\\uploads\\b771810f-57aa-4615-b5e9-fe0a397911d5.jpg",
+      "PackagePath": "staticwebassets\\uploads\\b771810f-57aa-4615-b5e9-fe0a397911d5.jpg"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.SocialMediaApp.Microsoft.AspNetCore.StaticWebAssets.props",
+      "PackagePath": "build\\Microsoft.AspNetCore.StaticWebAssets.props"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.build.SocialMediaApp.props",
+      "PackagePath": "build\\SocialMediaApp.props"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.buildMultiTargeting.SocialMediaApp.props",
+      "PackagePath": "buildMultiTargeting\\SocialMediaApp.props"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.buildTransitive.SocialMediaApp.props",
+      "PackagePath": "buildTransitive\\SocialMediaApp.props"
+    }
+  ],
+  "ElementsToRemove": []
+}
