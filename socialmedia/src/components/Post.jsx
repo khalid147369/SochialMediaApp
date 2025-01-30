@@ -6,15 +6,11 @@ import { CommentsContext } from "../context/CommentsContext";
 import useSendComment from "../hooks/useSendComment";
 import useGetComment from "../hooks/useGetComment";
 import { useLocation } from "react-router-dom";
-import './post.css'
+import './Post.css'
 import {
-  EditOutlined,
   EllipsisOutlined,
-  SettingOutlined,
   LikeOutlined,
   LikeFilled,
-  SaveFilled,
-  BugOutlined,
   CommentOutlined,
   DeleteOutlined,
 } from "@ant-design/icons";
@@ -25,7 +21,6 @@ import axios from "axios";
 import Cookies from "universal-cookie";
 // import { Button } from "antd/es/radio";
 import { Button } from "@mui/material";
-import { purple } from "@mui/material/colors";
 import { useDispatch } from "react-redux";
 import { deletePosts} from '../features/myPostsSlice'
 

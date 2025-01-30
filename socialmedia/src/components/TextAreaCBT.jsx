@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import UploadButton from "./UploadButton";
 import { Input } from "antd";
 import { SendOutlined } from "@ant-design/icons";
-import { Upload } from "antd"; // Corrected import statement
 import { useDispatch } from "react-redux";
 import { sendPost, getallPosts } from "../features/postsSlice";
 
