@@ -177,4 +177,3 @@ C:\Users\pc\source\repos\SocialMediaApp\SocialMediaApp\obj\Debug\net8.0\SocialMe
 C:\Users\pc\source\repos\SocialMediaApp\SocialMediaApp\bin\Debug\net8.0\SocialMediaApp.staticwebassets.endpoints.json
 C:\Users\pc\source\repos\SocialMediaApp\SocialMediaApp\obj\Debug\net8.0\staticwebassets.build.endpoints.json
 C:\Users\pc\source\repos\SocialMediaApp\SocialMediaApp\obj\Debug\net8.0\staticwebassets\msbuild.SocialMediaApp.Microsoft.AspNetCore.StaticWebAssetEndpoints.props
-C:\Users\pc\source\repos\SocialMediaApp\SocialMediaApp\obj\Debug\net8.0\staticwebassets.upToDateCheck.txt
