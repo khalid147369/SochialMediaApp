@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\pc\\source\\repos\\SocialMediaApp\\SocialMediaApp\\SocialMediaApp.csproj": {}
+    "C:\\Users\\pc\\khalidtop\\client_sochialmedia\\SocialMediaApp\\SocialMediaApp.csproj": {}
   },
   "projects": {
-    "C:\\Users\\pc\\source\\repos\\SocialMediaApp\\SocialMediaApp\\SocialMediaApp.csproj": {
+    "C:\\Users\\pc\\khalidtop\\client_sochialmedia\\SocialMediaApp\\SocialMediaApp.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\pc\\source\\repos\\SocialMediaApp\\SocialMediaApp\\SocialMediaApp.csproj",
+        "projectUniqueName": "C:\\Users\\pc\\khalidtop\\client_sochialmedia\\SocialMediaApp\\SocialMediaApp.csproj",
         "projectName": "SocialMediaApp",
-        "projectPath": "C:\\Users\\pc\\source\\repos\\SocialMediaApp\\SocialMediaApp\\SocialMediaApp.csproj",
+        "projectPath": "C:\\Users\\pc\\khalidtop\\client_sochialmedia\\SocialMediaApp\\SocialMediaApp.csproj",
         "packagesPath": "C:\\Users\\pc\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\pc\\source\\repos\\SocialMediaApp\\SocialMediaApp\\obj\\",
+        "outputPath": "C:\\Users\\pc\\khalidtop\\client_sochialmedia\\SocialMediaApp\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
