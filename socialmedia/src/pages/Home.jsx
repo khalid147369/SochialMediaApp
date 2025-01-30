@@ -1,43 +1,33 @@
-import React, { useState, useContext, useEffect } from "react";
+import { useState, useEffect } from "react";
 import TextAreaCBT from "../components/TextAreaCBT";
 import Avata from "../components/Avata";
-import {
-  MenuFoldOutlined,
-  MenuUnfoldOutlined,
-  UploadOutlined,
-  UserOutlined,
-  VideoCameraOutlined,
-  HomeOutlined,
-} from "@ant-design/icons";
-import { Button, Layout, Menu, theme } from "antd";
+import PostsSkeleton from "../components/PostsSkeleton";
+
+import { Layout, theme } from "antd";
 import Post from "../components/Post";
-import UseGetAllPosts from "../hooks/UseGetAllPosts";
-import { PostsContext } from "../context/PostsContext";
-import { UserContext } from "../context/UserContext";
+
+import './Home.css'
 import ErrorBoundary from "../components/ErrorBoundary"; // Import ErrorBoundary component
-import useTokenRefresh from "../hooks/useTokenRefresh"; // Ensure this path is correct
 import { backendUrl } from "../config";
+import Cookies from "universal-cookie"; // Import universal-cookie
+import { useDispatch, useSelector } from "react-redux";
+import { getallPosts, sendPost } from "../features/postsSlice";
 
 // ============================================================
-const { Header, Content } = Layout;
+const { Content } = Layout;
+
 const Home = () => {
   const [collapsed, setCollapsed] = useState(true);
-  const { data = [], loading, error } = UseGetAllPosts();
-  const postsContext = useContext(PostsContext);
-  const { user } = useContext(UserContext);
-  const { posts = [], setPosts } = postsContext;
-
-  const { useTokenRefresh: refreshAuthToken } = useTokenRefresh(); // Call useTokenRefresh hook
-
+  // const { posts = [], setPosts } = postsContext;
+  const dispatch = useDispatch();
+  const { posts, loading } = useSelector((state) => state.posts);
+  const { user } = useSelector((state) => state.user);
+  console.log(posts);
+console.log(user);
   useEffect(() => {
-    refreshAuthToken();
-  }, []);
+    dispatch(getallPosts());
+  }, [dispatch]);
 
-  useEffect(() => {
-    if (data) {
-      setPosts(data);
-    }
-  }, [data]); // Update dependency array to [data]
 
   useEffect(() => {
     if (posts && posts.length > 0) {
@@ -45,26 +35,15 @@ const Home = () => {
     }
   }, [posts]);
 
-  if (!user) {
-    refreshAuthToken();
-    return <p>loading...</p>;
-  }
-
   // Function to handle new post submission
   const handleNewPost = async (newPost) => {
-    try {
-      const addedPost = newPost; // Placeholder
-      setPosts((prevPosts) => [addedPost, ...prevPosts]);
-    } catch (error) {
-      console.error("Error adding post:", error);
-    }
+    dispatch(sendPost(newPost));
+    console.log(newPost);
   };
 
-  if (!postsContext) {
-    return <p>Error: PostsContext is not provided.</p>;
-  }
 
-  console.log(data);
+  
+
   const isAvatarClosed = () => {
     setCollapsed(true);
   };
@@ -72,20 +51,38 @@ const Home = () => {
   const {
     token: { colorBgContainer, borderRadiusLG },
   } = theme.useToken();
+  // handle errors-----------------/
+
+  
+  // show all posts
+  const showPosts = posts.map((post) => (
+    <Post
+    
+      key={post.id}
+      PostId={post.id}
+      title={post.title}
+      descreption={post.description}
+      imageName={post.imagePost}
+      avatarSrc={post.avatar}
+      likes={post.likes}
+      createdAt={post.publicatedAt}
+      commentsLenght={post.commentsLenght}
+    />
+  ));
 
   return (
-    <ErrorBoundary>
-      <Layout className="h-fit lg:max-w-5xl mx-auto">
-        <Layout className=" ">
-          <div className="fixed z-10 right-3 top-3 md:right-5 md:top-6">
+      <Layout className="h-fit   lg:max-w-5xl mx-auto" >
+        <Layout className=" bg-transparent " >
+          <div className="fixed z-10 right-3 top-3 md:right-5 md:top-6 h-fit w-fit ">
             <Avata
+            
               isClicked={isAvatarClosed}
               content={user.userName}
               imageSrc={`${backendUrl}${user.avatar}`}
             />
           </div>
           <Content
-            className="bg-slate-200 mx-auto h-fit w-fit flex flex-col items-center gap-10 md:items-center md:w-auto"
+            className=" bg-transparent  mx-auto md:mx-0 h-fit w-fit flex flex-col items-center gap-10 md:items-center md:w-auto mb-20"
             style={{
               margin: "24px 25px",
               padding: 24,
@@ -94,29 +91,14 @@ const Home = () => {
               borderRadius: borderRadiusLG,
             }}
           >
-            {error && <p>Error: {error.message}</p>}
-            {posts &&
-              posts.map((post) => (
-                <Post
-                  key={post.id}
-                  PostId={post.id}
-                  title={post.title}
-                  descreption={post.description}
-                  imageName={post.imagePost}
-                  avatarSrc={post.avatar}
-                  likes={post.likes}
-                  createdAt={post.publicatedAt}
-                  commentsLenght={post.commentsLenght}
-                  loading={loading}
-                />
-              ))}
+            {!loading ? posts && showPosts : <PostsSkeleton  />}
+            
           </Content>
-          <div className="fixed right-1/2 transform translate-x-1/2 bottom-2">
-            <TextAreaCBT onSubmit={handleNewPost} /> {/* Pass handleNewPost to TextAreaCBT */}
+          <div className="fixed right-1/2 transform translate-x-1/2 bottom-2 h-2">
+            <TextAreaCBT onSubmit={handleNewPost} />
           </div>
         </Layout>
       </Layout>
-    </ErrorBoundary>
   );
 };
 

@@ -5,6 +5,7 @@
 
 .no-scroll {
   overflow: hidden;
-  background-color: red;
   /* background-color: rgba(139, 180, 240, 0.224); */
 }
+
+  /* background-image: linear-gradient(120deg, #8aaae5,#FFFFFF);} */

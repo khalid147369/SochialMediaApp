@@ -1,39 +1,42 @@
-import { useState, useContext, useEffect } from 'react';
-import TextAreaCBT from "../components/TextAreaCBT";
-import Avata from "../components/Avata";
-import { Button, Layout, Menu, theme } from "antd";
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { Layout, theme } from "antd";
 import Post from "../components/Post";
-import { UserContext } from "../context/UserContext";
 import ErrorBoundary from "../components/ErrorBoundary";
-import { FavoritesContext } from '../context/FavoritesContext'; // Import FavoritesContext
-import useTokenRefresh from '../hooks/useTokenRefresh';
-
+import { getFavorites } from '../features/favoritesSlice';
+import { useNavigate  } from 'react-router-dom';
+import PostsSkeleton from '../components/PostsSkeleton';
+import "../App.css"
 function Favorites() {
   const { Content } = Layout;
-  const { user } = useContext(UserContext);
-  const { favorites, loading, error } = useContext(FavoritesContext); // Use FavoritesContext
-  const { useTokenRefresh:refreshToken } = useTokenRefresh(); // Destructure to get the refreshToken function
-
+  const dispatch = useDispatch();
+  const { favorites, loading, errors } = useSelector((state) => state.favorites);
+  const navigate = useNavigate();
   const {
     token: { colorBgContainer, borderRadiusLG },
   } = theme.useToken();
 
-  if (!user) {
-    refreshToken();
-  }
   useEffect(() => {
-    if (favorites.length > 0){
-      window.scrollTo(0, document.body.scrollHeight);
+    dispatch(getFavorites());
+  }, [dispatch]);
 
+  useEffect(() => {
+    if (favorites && favorites.length > 0) {
+      window.scrollTo(0, document.body.scrollHeight);
     }
-    },[favorites]);
-  
+  }, [favorites]);
+
+  useEffect(() => {
+    if (errors && errors.response && errors.response.status === 401) {
+      navigate("/login");
+    }
+  }, [errors, navigate]);
+
   return (
-    <ErrorBoundary>
       <Layout className="h-fit">
-        <Layout className="h-fit">
+        <Layout className="h-fit backroundgridient">
           <Content
-            className="flex flex-col items-center gap-10 h-fit w-fit md:w-auto"
+            className="flex mx-auto md:mx-0 flex-col items-center gap-10 h-fit w-fit md:w-auto bg-transparent"
             style={{
               margin: "24px 25px",
               padding: 24,
@@ -42,9 +45,9 @@ function Favorites() {
               borderRadius: borderRadiusLG,
             }}
           >
-            {loading && <p>Loading...</p>}
-            {error && <p>Error: {error.message}</p>}
-            {favorites &&
+            
+            {errors && <p>Error: {errors.message}</p>}
+            { loading ? <PostsSkeleton />:favorites &&
               favorites.map((post) => (
                 <Post
                   key={post.id}
@@ -54,12 +57,13 @@ function Favorites() {
                   imageName={post.imagePost}
                   avatarSrc={post.avatar}
                   likes={post.likes}
+                  commentsLenght={ post.commentsLenght +1}
+                  createdAt={post.publicatedAt}
                 />
               ))}
           </Content>
         </Layout>
       </Layout>
-    </ErrorBoundary>
   );
 }
 

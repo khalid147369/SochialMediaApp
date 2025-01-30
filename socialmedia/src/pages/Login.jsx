@@ -1,17 +1,18 @@
-import React, { useState, useContext } from "react";
+import React, { useState } from "react";
+import { useDispatch } from "react-redux";
+import { setUser } from "../features/userSlice";
 import "./Login.css";
 import { backendUrl } from "../config";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
-import { UserContext } from "../context/UserContext"; // Import UserContext
-import cookie from "universal-cookie"; // Import universal-cookie
+import Cookies from "universal-cookie"; // Import universal-cookie
 import { Alert } from "antd";
 
-const cookies = new cookie(); // Initialize cookies
+const cookies = new Cookies(); // Initialize cookies
 
 function Login() {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { setUser } = useContext(UserContext); // Get setUser from UserContext
   const [userName, setuserName] = useState("");
   const [password, setPassword] = useState("");
   const [errors, setErrors] = useState("");
@@ -22,19 +23,17 @@ function Login() {
         .post(`${backendUrl}/api/Users/LogIn`, {
           userName,
           password,
-        })
+        },{ withCredentials: true })
         .then((response) => {
-          navigate("/");
+          
           cookies.set("token", response.data.token, { path: "/" }); // Set token in cookies
-          cookies.set("refreshToken", response.data.refreshToken, {
-            path: "/",
-          }); // Set refreshToken in cookies
-          setUser(response.data); // Set user information in context
+          dispatch(setUser(response.data)) ; // Set user information in context
           console.log(response.data);
+          navigate("/");
         })
         .catch((error) => {
           console.log(error);
-          setErrors(error.response.data);
+          setErrors(error.response);
         });
 
       // Handle successful login here

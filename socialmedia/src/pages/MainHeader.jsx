@@ -1,12 +1,26 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Menu } from "antd";
 import { HomeOutlined, UploadOutlined } from "@ant-design/icons";
 import BookmarkBorderSharpIcon from '@mui/icons-material/BookmarkBorderSharp';
 import { Layout } from "antd";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 const { Header } = Layout;
 
 function MainHeader() {
+  const [selectedKey, setSelectedKey] = useState(localStorage.getItem("selectedKey") || "1");
+  const location = useLocation();
+
+  const handleSelectMenu = (e) => {
+    setSelectedKey(e.key);
+    localStorage.setItem("selectedKey", e.key);
+  };
+
+  useEffect(() => {
+    if (location.pathname === "/") {
+      setSelectedKey("1");
+    }
+  }, [location]);
+
   return (
     <Header
       className=" flex  md:hidden p-3 md:p-12 fixed"
@@ -23,7 +37,9 @@ function MainHeader() {
       <Menu
         theme="dark"
         mode="horizontal"
-        defaultSelectedKeys={["2"]}
+        selectedKeys={[`${selectedKey}`]}
+        defaultSelectedKeys={["1"]}
+        onSelect={handleSelectMenu}
         items={[
           {
             key: "1",

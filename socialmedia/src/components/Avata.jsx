@@ -14,57 +14,70 @@ import Logout from '@mui/icons-material/Logout';
 import { useNavigate } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import Cookies from 'universal-cookie';
-export default function Avata({isClicked,content,imageSrc=''}) {
-     Avata.propTypes = {
-      isClicked: PropTypes.func.isRequired,
-      content: PropTypes.string.isRequired,
-      imageSrc: PropTypes.string.isRequired,
-    }
-  const [anchorEl, setAnchorEl] = React.useState(null);
-//   const [isClose, setisClose] = React.useState(null);
-const navigate = useNavigate();
-const cookies = new Cookies();
-  const open = Boolean(anchorEl);
-  const handleClick = (event) => {
-    
-    // setisClose(true);
-      setAnchorEl(event.currentTarget);
-    
+
+export default function Avata({ isClicked, content, imageSrc = '' }) {
+  Avata.propTypes = {
+    isClicked: PropTypes.func.isRequired,
+    content: PropTypes.string.isRequired,
+    imageSrc: PropTypes.string.isRequired,
   };
-  
+
+  const [anchorEl, setAnchorEl] = React.useState(null);
+  const [navigateTo, setNavigateTo] = React.useState(null);
+  const navigate = useNavigate();
+  const cookies = new Cookies();
+  const open = Boolean(anchorEl);
+
+  React.useEffect(() => {
+    if (navigateTo) {
+      navigate(navigateTo);
+      setNavigateTo(null);
+    }
+  }, [navigateTo, navigate]);
+
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
   const handleClose = (options) => {
     setAnchorEl(null);
-    isClicked()
+    isClicked();
     switch (options) {
       case "account":
-        navigate('/register')
+        setNavigateTo('/register');
         break;
-    
+      case "profile":
+        setNavigateTo('/Profile');
+        break;
+      default:
+        break;
     }
-
   };
+
   const handleLogout = () => {
-  cookies.remove('token')
-  cookies.remove('refreshToken')
-  navigate('/login')
+    cookies.remove('token');
+    cookies.remove('refreshToken');
+    navigate('/login');
+  };
+
+  if (!content) {
+    content = "";
   }
- if(!content){
-  content = ""
- }
+
   return (
     <React.Fragment>
-      <Box  sx={{ display: 'flex', alignItems: 'center', textAlign: 'center' }}>
+      <Box sx={{ display: 'flex', alignItems: 'center', textAlign: 'center' }} >
         <Tooltip title="Account settings">
           <IconButton
             onClick={handleClick}
             size="small"
-            className=' w-fit'
+            className='w-fit'
             sx={{ ml: 2 }}
             aria-controls={open ? 'account-menu' : undefined}
             aria-haspopup="true"
             aria-expanded={open ? 'true' : undefined}
           >
-            <Avatar  sx={{ width: 32, height: 32 }} src={imageSrc} >{content[0]}</Avatar>
+            <Avatar sx={{ width: 32, height: 32 }} src={imageSrc} className={" border-gray-600 border rounded-full w-10 h-10 "}>{content[0]}</Avatar>
           </IconButton>
         </Tooltip>
       </Box>
@@ -105,15 +118,15 @@ const cookies = new Cookies();
         transformOrigin={{ horizontal: 'right', vertical: 'top' }}
         anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
       >
-        <MenuItem onClick={handleClose}>
-          <Avatar /> Profile
+        <MenuItem onClick={() => handleClose("profile")}>
+          <Avatar src={imageSrc} /> Profile
         </MenuItem>
         <Divider />
-        <MenuItem onClick={()=>handleClose("account")}>
+        <MenuItem onClick={() => handleClose("account")}>
           <ListItemIcon>
             <PersonAdd fontSize="small" />
           </ListItemIcon>
-           Add another account
+          Add another account
         </MenuItem>
         <MenuItem onClick={handleClose}>
           <ListItemIcon>

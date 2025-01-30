@@ -1,13 +1,12 @@
-import { useState, useEffect, useContext } from "react";
+import { useState, useEffect, useContext, Fragment } from "react";
 import BookmarkBorderSharpIcon from "@mui/icons-material/BookmarkBorderSharp";
 import CommentTextArea from "./CommentTextArea";
 import CommentResponse from "./CommentResponse";
 import { CommentsContext } from "../context/CommentsContext";
 import useSendComment from "../hooks/useSendComment";
 import useGetComment from "../hooks/useGetComment";
-import useGetFavorites from "../hooks/useGetFavorites";
 import { useLocation } from "react-router-dom";
-import PostsSkeleton from "./PostsSkeleton";
+import './post.css'
 import {
   EditOutlined,
   EllipsisOutlined,
@@ -17,6 +16,7 @@ import {
   SaveFilled,
   BugOutlined,
   CommentOutlined,
+  DeleteOutlined,
 } from "@ant-design/icons";
 import ChatBubbleOutlineIcon from "@mui/icons-material/ChatBubbleOutline";
 import { Avatar, Card, Popover, Empty } from "antd";
@@ -26,6 +26,9 @@ import Cookies from "universal-cookie";
 // import { Button } from "antd/es/radio";
 import { Button } from "@mui/material";
 import { purple } from "@mui/material/colors";
+import { useDispatch } from "react-redux";
+import { deletePosts} from '../features/myPostsSlice'
+
 const { Meta } = Card;
 
 const Post = ({
@@ -42,6 +45,7 @@ const Post = ({
   const [isLiked, setIsLiked] = useState(false);
   const [like, setLike] = useState(likes);
   const [color, setcolor] = useState("");
+  const [color2, setcolor2] = useState("text-red-500");
   const { comments } = useContext(CommentsContext);
   const { getComments } = useGetComment();
   const [cmnts, setCmnts] = useState(comments || []);
@@ -49,14 +53,13 @@ const Post = ({
   const { sendComment } = useSendComment(); // Ensure hook is called correctly
   const [isSavedText, SetisSavedText] = useState("save post");
   const location = useLocation();
-  const { getFavorites } = useGetFavorites(); // Ensure hook is called correctly
+const dispatch = useDispatch();
 
   useEffect(() => {
     // Load the liked state for this post from localStorage
     const savedLikes = JSON.parse(localStorage.getItem("likes")) || {};
     setIsLiked(savedLikes[PostId] || false);
   }, [PostId]);
-  console.log(PostId);
   const cookies = new Cookies();
   const token = cookies.get("token");
   const handleLike = () => {
@@ -86,7 +89,6 @@ const Post = ({
         });
     }
   };
-  console.log(PostId);
   const handleSavePoast = async () => {
     if (location.pathname == "/Favorites") {
       await axios
@@ -96,7 +98,7 @@ const Post = ({
           },
         })
         .then(async (response) => {
-          await getFavorites();
+          
           console.log(response);
         });
     } else {
@@ -115,15 +117,28 @@ const Post = ({
   }, [location]);
   const content = (
     <div>
-      <Button
-        onClick={handleSavePoast}
-        onMouseEnter={() => setcolor("text-white")}
-        onMouseLeave={() => setcolor("")}
-        className={`${color}  w-full`}
-      >
-        <BookmarkBorderSharpIcon className=" mr-10" />
-        {isSavedText}
-      </Button>
+      <Fragment>
+        <Button
+          onClick={handleSavePoast}
+          onMouseEnter={() => setcolor("text-white")}
+          onMouseLeave={() => setcolor("")}
+          className={`${color}  w-full flex gap-5`}
+        >
+          <BookmarkBorderSharpIcon className=" " />
+          <p>{isSavedText}</p>
+        </Button>
+       {location.pathname==="/MyPosts"&&<Button
+       onClick={()=>{dispatch(deletePosts(PostId))}}
+          onMouseEnter={() => setcolor2("text-white")}
+          onMouseLeave={() => setcolor2("text-red-500")}
+          className={`${color2}  w-full  flex gap-5`}
+        >
+          <DeleteOutlined className=" text-xl " />
+          <p>delete post</p>
+        </Button>}
+       
+      </Fragment>
+
       <hr />
       <p>Content</p>
     </div>
@@ -182,44 +197,46 @@ const Post = ({
   };
 
   const date = new Date(createdAt);
-  const now = new Date();
+  const now = Date.now()
   // const DifferenceDate = date -now
   const DifferenceDate = now - date;
   var publicatedAfter = Math.floor(DifferenceDate / 1000);
-
-  return !loading ? (
-    <div className=" w-80 md:w-1/2 ">
+  return (
+    <div className=" w-80 md:w-1/2 shadow-sm  ">
       <Card
-        className=" relative  "
+        className=" relative postBackround custom-card-actions "
         cover={
-          imageName == null ? (
+          imageName == null || imageName == "" ? (
             ""
           ) : (
             <img alt="example" src={`${backendUrl}${imageName}`} />
           )
         }
+        
         actions={[
           <Popover
+          
             key="ellipses"
             placement="top"
             title={text}
             content={content}
             trigger="click"
           >
-            <EllipsisOutlined className=" text-xl" />
+            <EllipsisOutlined className=" text-xl "  />
           </Popover>,
-          <div onClick={handleComment} key="chat">
-            <ChatBubbleOutlineIcon className=" text-xl mt-2" />
+          <div onClick={handleComment} key="chat" >
+            <ChatBubbleOutlineIcon className=" text-xl mt-2 "  />
           </div>,
           isLiked ? (
             <LikeFilled
-              className=" text-xl text-blue-600"
+              className=" text-xl text-blue-600 "
               key="like"
               onClick={handleLike}
+              
             />
           ) : (
             <LikeOutlined
-              className=" text-xl"
+              className=" text-xl "
               key="like"
               onClick={handleLike}
             />
@@ -255,7 +272,7 @@ const Post = ({
       </Card>
 
       {showComment ? (
-        <div className="fixed inset-0 flex items-center justify-center z-20">
+        <div className="fixed inset-0 bg-gray-100   bg-opacity-55  flex items-center justify-center z-20">
           <Card className="w-96 px-0 bg-gray-300">
             <div className=" cursor-pointer" onClick={handleCloseCommentBox}>
               X
@@ -287,8 +304,6 @@ const Post = ({
         ""
       )}
     </div>
-  ) : (
-    <PostsSkeleton />
   );
 };
 export default Post;

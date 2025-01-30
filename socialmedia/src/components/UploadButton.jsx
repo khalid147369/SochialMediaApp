@@ -27,8 +27,8 @@ const UploadButton = ({ getImage, isEmpty }) => {
       style={{
         border: 0,
         background: "none",
-        width: "100px",
-        height: "500px",
+        width: "fit-content",
+        height: "fit-content",
       }}
       type="button"
     >
@@ -51,9 +51,11 @@ const UploadButton = ({ getImage, isEmpty }) => {
       <Upload
         // name="avatar"
         listType="picture-card"
-        className="avatar-uploader "
-        // style={{width:"20px !important"}}
+        className="avatar-uploader  "
+        
         showUploadList={false}
+        
+        
         onChange={handleChange}
       >
         {imageUrl ? (

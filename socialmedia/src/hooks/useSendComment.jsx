@@ -1,8 +1,6 @@
 import axios from 'axios';
 import { useState,useContext } from 'react';
 import { backendUrl } from '../config';
-import { PostsContext } from "../context/PostsContext";
-import useTokenRefresh from './useTokenRefresh';
 
 const useSendComment = () => {
   const [data, setData] = useState([]);

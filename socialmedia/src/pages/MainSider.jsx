@@ -3,7 +3,7 @@ import { Menu ,Layout} from 'antd';
 import { HomeOutlined, UploadOutlined ,BookOutlined } from '@ant-design/icons';
 const { Sider } = Layout;
 import { Link ,useLocation } from 'react-router-dom';
-
+import "../App.css"
 function MainSider() {
       const [collapsed, setCollapsed] = useState(true);
       const [selectedKey, setselectedKey] = useState(localStorage.getItem("selectedKey") || "1");
@@ -25,16 +25,18 @@ useEffect(() => {
       <Sider
               onMouseEnter={() => setCollapsed(!collapsed)}
               onMouseLeave={() => setCollapsed(!collapsed)}
-              className="fixed h-screen hidden md:block z-20"
+              className="fixed h-screen hidden md:block z-20 sider-backround "
               trigger={null}
               collapsible
               collapsed={collapsed}
+              // theme='black'
             >
               <div className="demo-logo-vertical" />
-              <div className=" my-2 bg-red-400"></div>
+              <div className=" my-2 "></div>
               <Menu
                 theme="dark"
                 mode="inline"
+                className=' bg-transparent'
                 ref={ref}
                 selectedKeys={[`${selectedKey}`]}
                 defaultSelectedKeys={["1"]}
@@ -42,7 +44,7 @@ useEffect(() => {
                 items={[
                   {
                     key: "1",
-                    icon: <Link to={"/"} ><HomeOutlined /></Link>,
+                    icon: <Link to={"/"} ><HomeOutlined className='bg-transparent' /></Link>,
     
                     label: "Home",
                   },
