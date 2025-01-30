@@ -4,7 +4,6 @@
     {
         public string Description { get; set; }
         public IFormFile? imagePost { get; set; }
-        public byte isliked { get; set; }
         
 
     }

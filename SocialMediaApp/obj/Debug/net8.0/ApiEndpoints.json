@@ -58,11 +58,22 @@
         "Name": "imagePost",
         "Type": "Microsoft.AspNetCore.Http.IFormFile",
         "IsRequired": false
-      },
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "SocialMediaApp.Controllers.PostsController",
+    "Method": "deletePostById",
+    "RelativePath": "api/Posts/{postId}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
       {
-        "Name": "isliked",
-        "Type": "System.Byte",
-        "IsRequired": false
+        "Name": "postId",
+        "Type": "System.Int32",
+        "IsRequired": true
       }
     ],
     "ReturnTypes": []
@@ -111,18 +122,12 @@
   },
   {
     "ContainingType": "SocialMediaApp.Controllers.RefreshTokenControler",
-    "Method": "refreshToken",
+    "Method": "RefreshToken",
     "RelativePath": "api/refreshToken",
     "HttpMethod": "POST",
     "IsController": true,
     "Order": 0,
-    "Parameters": [
-      {
-        "Name": "refreshToken",
-        "Type": "SocialMediaApp.DTO.RefreshTokenDTO",
-        "IsRequired": true
-      }
-    ],
+    "Parameters": [],
     "ReturnTypes": []
   },
   {
@@ -163,6 +168,52 @@
         "Name": "PostId",
         "Type": "System.Int32",
         "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "SocialMediaApp.Controllers.UsersController",
+    "Method": "GetuserById",
+    "RelativePath": "api/Users",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "SocialMediaApp.Controllers.UsersController",
+    "Method": "updateUserData",
+    "RelativePath": "api/Users",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "username",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "avatar",
+        "Type": "Microsoft.AspNetCore.Http.IFormFile",
+        "IsRequired": false
+      },
+      {
+        "Name": "email",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "oldPassword",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "newPassword",
+        "Type": "System.String",
+        "IsRequired": false
       }
     ],
     "ReturnTypes": []

@@ -1,11 +1,15 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using SocialMediaApp.Data;
 using SocialMediaApp.Data.Models;
 using SocialMediaApp.DTO;
 using SocialMediaApp.Models;
 using SocialMediaApp.services;
+using System.Security.Claims;
 
 namespace SocialMediaApp.Controllers
 {
@@ -69,12 +73,76 @@ namespace SocialMediaApp.Controllers
             us.expires = DateTime.UtcNow.AddDays(5);
             us.refreshToken = reftk;
             await _userManager.UpdateAsync(us);
-            
+            Response.Cookies.Append("refreshToken", reftk, new CookieOptions
+            {
+                HttpOnly = true,
+                Secure = true, // Use HTTPS
+                SameSite = SameSiteMode.None,
+                Expires = DateTime.UtcNow.AddDays(7)
+            });
 
-            return Ok(new {token = newtoken,refreshToken =reftk, userName=us.UserName , us.avatar });
+            return Ok(new {token = newtoken, userName=us.UserName , avatar =us.avatar,email=us.Email });
 
         }
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
 
+        [HttpGet]
+        public async Task<IActionResult> GetuserById()
+        {
+            string usId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+        User user =await _userManager.Users.FirstOrDefaultAsync((us)=>us.Id == usId);
+            if (user == null)
+            { return BadRequest("user notfound"); }
+            return Ok(new { username = user.UserName, email=user.Email,avatar=user.avatar,userId=user.Id });
+
+        }
+        [HttpPut]
+        public async Task<IActionResult> updateUserData(UpdateUserDataDTO userNewData)
+        {
+
+           User? user =await _userManager.GetUserAsync(User);
+            if (user == null)
+            {
+                return BadRequest("user not found");
+            }
+          
+            if (userNewData.avatar != null && userNewData.avatar.Length > 0)
+            {
+                user.avatar = await new ImageHandeler(_webHost).HandleImage(userNewData.avatar, "avatar");
+            }
+            if (!string.IsNullOrEmpty(userNewData.username))
+            {
+                user.UserName = userNewData.username;
+            }
+            if (!string.IsNullOrEmpty(userNewData.email))
+            {
+                user.Email = userNewData.email;
+            }
+            if (!string.IsNullOrEmpty(userNewData.oldPassword) && !string.IsNullOrEmpty(userNewData.newPassword))
+            {
+
+
+                var isCurrentPasswordValid = await _userManager.CheckPasswordAsync(user, userNewData.oldPassword);
+                if (!isCurrentPasswordValid)
+                {
+                    return BadRequest("Current password is incorrect.");
+                }
+
+                var result = await _userManager.ChangePasswordAsync(user, userNewData.oldPassword, userNewData.newPassword);
+                if (!result.Succeeded)
+                {
+                    return BadRequest(result.Errors);
+                }
+
+            
+        }
+            var isSucceeded =await _userManager.UpdateAsync(user);
+            if (!isSucceeded.Succeeded)
+            {
+                return StatusCode(500, "user does not update");
+            }
+            return Ok("updated successfully");
+        }
 
     }
 }

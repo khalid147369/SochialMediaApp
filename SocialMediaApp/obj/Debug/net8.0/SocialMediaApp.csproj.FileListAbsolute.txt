@@ -173,3 +173,8 @@ C:\Users\pc\source\repos\SocialMediaApp\SocialMediaApp\bin\Debug\net8.0\Microsof
 C:\Users\pc\source\repos\SocialMediaApp\SocialMediaApp\bin\Debug\net8.0\Microsoft.Extensions.Identity.Stores.dll
 C:\Users\pc\source\repos\SocialMediaApp\SocialMediaApp\bin\Debug\net8.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
 C:\Users\pc\source\repos\SocialMediaApp\SocialMediaApp\bin\Debug\net8.0\SocialMediaApp.staticwebassets.runtime.json
+C:\Users\pc\source\repos\SocialMediaApp\SocialMediaApp\obj\Debug\net8.0\SocialMediaApp.sourcelink.json
+C:\Users\pc\source\repos\SocialMediaApp\SocialMediaApp\bin\Debug\net8.0\SocialMediaApp.staticwebassets.endpoints.json
+C:\Users\pc\source\repos\SocialMediaApp\SocialMediaApp\obj\Debug\net8.0\staticwebassets.build.endpoints.json
+C:\Users\pc\source\repos\SocialMediaApp\SocialMediaApp\obj\Debug\net8.0\staticwebassets\msbuild.SocialMediaApp.Microsoft.AspNetCore.StaticWebAssetEndpoints.props
+C:\Users\pc\source\repos\SocialMediaApp\SocialMediaApp\obj\Debug\net8.0\staticwebassets.upToDateCheck.txt

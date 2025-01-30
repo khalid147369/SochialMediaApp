@@ -90,7 +90,7 @@ namespace SocialMediaApp.Controllers
             pt.user = user;
             pt.imagePost = await new ImageHandeler(_environment).HandleImage(post.imagePost);
             pt.avatar = user.avatar;
-            pt.publicatedAt = DateTime.UtcNow;
+            pt.publicatedAt = DateTime.Now;
 
 
             await _db.AddAsync(pt);
@@ -140,6 +140,38 @@ namespace SocialMediaApp.Controllers
             _db.posts.Update(pt);
             await _db.SaveChangesAsync();
             return Ok(new {newLikes = pt.likes ,isLiked =false});
+        }
+        [HttpDelete("{postId}")]
+        public async Task<IActionResult> deletePostById(int postId)
+        {
+            var post = await _db.posts.FindAsync(postId);
+            if (post == null)
+            {
+                return NotFound("Post not found");
+            }
+            // Delete the image file if it exists
+            if (!string.IsNullOrEmpty(post.imagePost))
+            {
+                Console.WriteLine($"======PostImage=======>{post.imagePost}");
+                var imagePath = Path.Combine(_environment.WebRootPath, post.imagePost.TrimStart('/'));
+                Console.WriteLine($"======imagePath=======>{post.imagePost}");
+
+                if (System.IO.File.Exists(imagePath))
+                {
+                    try
+                    {
+                        System.IO.File.Delete(imagePath);
+                        Console.WriteLine("Image deleted successfully");
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine($"Error deleting image: {ex.Message}");
+                    }
+                }
+            }
+            _db.posts.Remove(post);
+            await _db.SaveChangesAsync();
+            return Ok("Post deleted successfully");
         }
 
 
