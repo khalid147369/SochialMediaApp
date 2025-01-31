@@ -1,2 +1,2 @@
 
-export const backendUrl = 'https://localhost:7229';
+export const backendUrl = 'https://socialmediaapp.runasp.net';
