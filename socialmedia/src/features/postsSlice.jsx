@@ -7,7 +7,7 @@ const getallPosts = createAsyncThunk(
   async (_, thunkAPI) => {
     const { rejectWithValue } = thunkAPI;
     try {
-      const response = await fetch("https://localhost:7229/api/Posts");
+      const response = await fetch(`${backendUrl}/api/Posts`);
       if (!response.ok) {
         throw new Error("Network response was not ok");
       }
