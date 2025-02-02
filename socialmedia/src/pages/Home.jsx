@@ -68,7 +68,7 @@ console.log(user);
       title={post.title}
       descreption={post.description}
       imageName={post.imagePost}
-      avatarSrc={post.avatar}
+      avatarSrc={user.avatar}
       likes={post.likes}
       createdAt={post.publicatedAt}
       commentsLenght={post.commentsLenght}
