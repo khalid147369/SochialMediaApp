@@ -7,7 +7,7 @@ const getallPosts = createAsyncThunk(
   async (_, thunkAPI) => {
     const { rejectWithValue } = thunkAPI;
     try {
-      const response = await fetch("https://localhost:7229/api/Posts");
+      const response = await fetch(`${backendUrl}/api/Posts`);
       if (!response.ok) {
         throw new Error("Network response was not ok");
       }
@@ -19,40 +19,14 @@ const getallPosts = createAsyncThunk(
   }
 );
 
-const sendPost = createAsyncThunk(
-  "posts/sendPost",
-  async ({  description, image }, thunkAPI) => {
-    const { rejectWithValue } = thunkAPI;
-    try {
-      const cookie = new Cookies()
-      const token = cookie.get("token");
-      const formData = new FormData();
-      formData.append("Description", description);
-      formData.append("imagePost", image);
 
-      const response = await fetch(`${backendUrl}/api/Posts`, {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-        body: formData,
-      });
-      if (!response.ok) {
-        throw new Error("Network response was not ok");
-      }
-      return await response.json();
-    } catch (error) {
-      return rejectWithValue(error.message);
-    }
-  }
-);
 
 const postsSlice = createSlice({
   name: "posts",
   initialState: { posts: [], loading: false, errors: [] },
   reducers: {
     sendPost: (state, action) => {
-      state.posts.push(action.payload);
+      state.posts = [...state.posts, action.payload];
     },
   },
   extraReducers: (builder) => {
@@ -67,18 +41,10 @@ const postsSlice = createSlice({
         state.errors = action.payload;
         state.loading = false;
       });
-      //send Posts
-    builder.addCase(sendPost.pending, (state) => {
-    });
-    builder.addCase(sendPost.fulfilled, (state, action) => {
-      state.posts = [...state.posts, action.payload];
-    });
-    builder.addCase(sendPost.rejected, (state, action) => {
-      state.errors = action.payload;
-    });
+
   },
 });
 
-export { getallPosts, sendPost };
+export { getallPosts };
 export const { sendPost: sendPostAction } = postsSlice.actions;
 export default postsSlice.reducer;

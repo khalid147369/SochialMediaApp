@@ -3,14 +3,14 @@ import UploadButton from "./UploadButton";
 import { Input } from "antd";
 import { SendOutlined } from "@ant-design/icons";
 import { useDispatch } from "react-redux";
-import { sendPost, getallPosts } from "../features/postsSlice";
-
+import useSendPost from "../hooks/useSendPost";
 const { TextArea } = Input;
 
 const TextAreaCBT = () => {
   const [description, setDescription] = useState("");
   const [image, setImage] = useState(null);
   const dispatch = useDispatch();
+  const { sendPost, convertImageToBase64 } = useSendPost();
 
   const handleImage = (url) => {
     console.log(url);
@@ -18,13 +18,16 @@ const TextAreaCBT = () => {
   };
 
   const handleSubmit = async () => {
-    const newPost = {  description, image };
-    const resultAction = await dispatch(sendPost(newPost));
-    if (sendPost.fulfilled.match(resultAction)) {
-      setDescription("");
-      setImage(null);
+    let imageBase = null;
+    if (image) {
+      imageBase = await convertImageToBase64(image);
+      console.log(image)
     }
-    
+    const imageBase64 = imageBase.split(",")[1];
+    const newPost = { Description:description, imageBase64,imageName:image.name };
+    sendPost(newPost);
+    setDescription("");
+    setImage(null);
   };
 
   return (

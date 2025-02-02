@@ -1,22 +1,29 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect ,useRef } from "react";
 import TextAreaCBT from "../components/TextAreaCBT";
 import Avata from "../components/Avata";
 import PostsSkeleton from "../components/PostsSkeleton";
-
+import { client, w3cwebsocket as W3CWebSocket } from 'websocket'
 import { Layout, theme } from "antd";
 import Post from "../components/Post";
 
 import './Home.css'
 import ErrorBoundary from "../components/ErrorBoundary"; // Import ErrorBoundary component
-import { backendUrl } from "../config";
+import { backendUrl, backendUrlWs } from "../config";
 import Cookies from "universal-cookie"; // Import universal-cookie
 import { useDispatch, useSelector } from "react-redux";
-import { getallPosts, sendPost } from "../features/postsSlice";
+import { getallPosts ,sendPostAction } from "../features/postsSlice";
+import { data } from "react-router-dom";
+
 
 // ============================================================
 const { Content } = Layout;
 
 const Home = () => {
+
+//webcket==
+
+//webcket==
+
   const [collapsed, setCollapsed] = useState(true);
   // const { posts = [], setPosts } = postsContext;
   const dispatch = useDispatch();
@@ -29,17 +36,14 @@ console.log(user);
   }, [dispatch]);
 
 
+
   useEffect(() => {
     if (posts && posts.length > 0) {
       window.scrollTo(0, document.body.scrollHeight);
     }
   }, [posts]);
 
-  // Function to handle new post submission
-  const handleNewPost = async (newPost) => {
-    dispatch(sendPost(newPost));
-    console.log(newPost);
-  };
+
 
 
   
@@ -52,8 +56,9 @@ console.log(user);
     token: { colorBgContainer, borderRadiusLG },
   } = theme.useToken();
   // handle errors-----------------/
-
-  
+  const [messages, setMessages] = useState([]);
+  const [inputValue, setInputValue] = useState('');
+  const [ws, setWs] = useState(null);
   // show all posts
   const showPosts = posts.map((post) => (
     <Post
@@ -69,6 +74,34 @@ console.log(user);
       commentsLenght={post.commentsLenght}
     />
   ));
+
+const cookie = new Cookies()
+const token = cookie.get('token')
+useEffect(() => {
+  const client = new W3CWebSocket(`${backendUrlWs}/api/websocket/connect?token=${token}`); // Use ws:// for local development
+    client.onopen = () => {
+      console.log('WebSocket Client Connected');
+    };
+
+    client.onmessage = (message) => {
+      const data = JSON.parse(message.data ) ;
+      setMessages(prevMessages => [...prevMessages, data]);
+      dispatch(sendPostAction(data))
+      console.log('Message received:', data);
+    };
+
+    client.onclose = () => {
+      console.log('WebSocket Client Disconnected');
+    };
+
+    // Clean up the WebSocket connection on unmount
+    return () => {
+      client.close();
+    };
+  }, [ token]);
+  
+
+
 
   return (
       <Layout className="h-fit   lg:max-w-5xl mx-auto" >
@@ -95,7 +128,7 @@ console.log(user);
             
           </Content>
           <div className="fixed right-1/2 transform translate-x-1/2 bottom-2 h-2">
-            <TextAreaCBT onSubmit={handleNewPost} />
+            <TextAreaCBT  />
           </div>
         </Layout>
       </Layout>
