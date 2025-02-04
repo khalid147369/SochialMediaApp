@@ -23,11 +23,22 @@ const TextAreaCBT = () => {
       imageBase = await convertImageToBase64(image);
       console.log(image)
     }
-    const imageBase64 = imageBase.split(",")[1];
-    const newPost = { Description:description, imageBase64,imageName:image.name };
+    
+if ( imageBase != null &&  image.name !== null) {
+  let imageBase64 = imageBase.split(",")[1];
+  console.log("tee")
+    const newPost = { Description:description, imageBase64:imageBase64||null,imageName:image.name||null };
     sendPost(newPost);
     setDescription("");
     setImage(null);
+  }else{
+    console.log("tee")
+      const newPost = { Description:description, imageBase64:null,imageName:null };
+      sendPost(newPost);
+      setDescription("");
+      setImage(null);
+  }
+
   };
 
   return (

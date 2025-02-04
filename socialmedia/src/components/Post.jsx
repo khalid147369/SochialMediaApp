@@ -21,7 +21,7 @@ import axios from "axios";
 import Cookies from "universal-cookie";
 // import { Button } from "antd/es/radio";
 import { Button } from "@mui/material";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { deletePosts} from '../features/myPostsSlice'
 
 const { Meta } = Card;
@@ -47,6 +47,8 @@ const Post = ({
   const [showComment, setshowComment] = useState(false);
   const { sendComment } = useSendComment(); // Ensure hook is called correctly
   const [isSavedText, SetisSavedText] = useState("save post");
+  const { user } = useSelector((state) => state.user);
+
   const location = useLocation();
 const dispatch = useDispatch();
 
@@ -159,7 +161,7 @@ const dispatch = useDispatch();
       token,
       title,
       comment,
-      avatarSrc,
+      user.avatar,
       PostId
     );
     if (data) {
@@ -196,15 +198,16 @@ const dispatch = useDispatch();
   // const DifferenceDate = date -now
   const DifferenceDate = now - date;
   var publicatedAfter = Math.floor(DifferenceDate / 1000);
+  console.log(cmnts)
   return (
-    <div className=" w-80 md:w-1/2 shadow-sm  ">
+    <div className=" w-80 md:w-1/2 shadow-sm h-fit ">
       <Card
-        className=" relative postBackround custom-card-actions "
+        className=" relative postBackround custom-card-actions h-fit  "
         cover={
           imageName == null || imageName == "" ? (
             ""
           ) : (
-            <img alt="example" src={`${backendUrl}${imageName}`} />
+            <img alt="example" className=" w-56 mx-auto" src={`${backendUrl}${imageName}`} />
           )
         }
         
@@ -268,24 +271,25 @@ const dispatch = useDispatch();
 
       {showComment ? (
         <div className="fixed inset-0 bg-gray-100   bg-opacity-55  flex items-center justify-center z-20">
-          <Card className="w-96 px-0 bg-gray-300">
+          <Card className="w-96 px-0 postBackround ">
             <div className=" cursor-pointer" onClick={handleCloseCommentBox}>
               X
             </div>
             {cmnts.length == 0 ? (
-              <p className="overflow-y-auto p-5 max-h-80">
-                <Empty description={"this Post doesn't have comments yet"} />
+              <p className="overflow-y-auto p-5 max-h-80 w-full ">
+                <Empty className="flex flex-col justify-center items-center"  image={"https://gw.alipayobjects.com/zos/antfincdn/ZHrcdLPrvN/empty.svg"}  description={"this Post doesn't have comments yet"} />
               </p>
             ) : (
               <div className="overflow-y-auto p-5 max-h-80">
                 {cmnts.map((comment) => (
                   <CommentResponse
                     key={comment.id}
-                    AvatarContent={title}
+                    AvatarContent={comment.avatar}
                     content={comment.content}
                     dateDime={comment.date}
                     title={title}
                   />
+
                 ))}
               </div>
             )}

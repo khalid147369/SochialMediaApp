@@ -11,10 +11,6 @@ const initialState = {
 };
 
 const cookie = new Cookies();
-const token = cookie.get("token");
-const refreshToken = cookie.get("refreshToken");
-
-console.log(refreshToken);
 
 const refreshUserAndToken = createAsyncThunk(
   "user/refreshUserAndToken",

@@ -1,11 +1,13 @@
 import { useState, useEffect } from 'react';
+import { useDispatch } from 'react-redux';
 import {  w3cwebsocket as W3CWebSocket } from 'websocket';
 import Cookies from 'universal-cookie';
 import { backendUrlWs } from '../config';
-
+import {sendPostAction}from '../features/postsSlice'
 const useSendPost = () => {
   const [ws, setWs] = useState(null);
   const [connected, setConnected] = useState(false);
+  const dispatch = useDispatch();
   const cookie = new Cookies();
   const token = cookie.get('token');
 
@@ -18,6 +20,12 @@ const useSendPost = () => {
       setWs(client);
     };
 
+    client.onmessage = (message) => {
+      const data = JSON.parse(message.data ) ;
+      dispatch(sendPostAction(data))
+      console.log('Message received:', data);
+    };
+
     client.onclose = () => {
       console.log('WebSocket Client Disconnected');
       setConnected(false);
@@ -27,7 +35,7 @@ const useSendPost = () => {
     return () => {
       client.close();
     };
-  }, [token]);
+  }, [token ,dispatch]);
 
   const sendPost = (post) => {
     if (ws && connected) {

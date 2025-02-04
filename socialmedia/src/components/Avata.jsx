@@ -14,6 +14,7 @@ import Logout from '@mui/icons-material/Logout';
 import { useNavigate } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import Cookies from 'universal-cookie';
+import useChangeMenu from '../hooks/usechangeMenu';
 
 export default function Avata({ isClicked, content, imageSrc = '' }) {
   Avata.propTypes = {
@@ -21,7 +22,7 @@ export default function Avata({ isClicked, content, imageSrc = '' }) {
     content: PropTypes.string.isRequired,
     imageSrc: PropTypes.string.isRequired,
   };
-
+const {setSelectedKey} = useChangeMenu();
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [navigateTo, setNavigateTo] = React.useState(null);
   const navigate = useNavigate();
@@ -47,6 +48,7 @@ export default function Avata({ isClicked, content, imageSrc = '' }) {
         setNavigateTo('/register');
         break;
       case "profile":
+        setSelectedKey(0)
         setNavigateTo('/Profile');
         break;
       default:

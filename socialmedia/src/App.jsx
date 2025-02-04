@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import  "jwt-decode"; // Correct import statement
+import "jwt-decode"; // Correct import statement
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import "@fontsource/roboto/300.css";
 import "@fontsource/roboto/400.css";
@@ -17,59 +17,55 @@ import Header from "./pages/MainHeader";
 import Favorites from "./pages/Favorites";
 import { useDispatch } from "react-redux";
 import Profile from "./pages/Profile";
-import { refreshUserAndToken } from './features/userSlice';
-import Cookies from 'universal-cookie'
+import { refreshUserAndToken } from "./features/userSlice";
+import Cookies from "universal-cookie";
 import { jwtDecode } from "jwt-decode";
 
 function App() {
   const [posts, setPosts] = useState([]);
-  const [comments, setComments] = useState([]);  
-  
+  const [comments, setComments] = useState([]);
+  const cookie = new Cookies();
+  const refreshToken = cookie.get("refreshToken");
+  const dispatch = useDispatch();
 
-    const dispatch = useDispatch();
-  
-    useEffect(() => {
+  useEffect(() => {
+    dispatch(refreshUserAndToken());
+  }, [dispatch]);
+
+
+  useEffect(() => {
+    const accessToken = localStorage.getItem("accessToken");
+    if (!accessToken) return;
+
+    const decoded = jwtDecode(accessToken); // Correct usage
+    const expiresAt = decoded.exp * 1000;
+    const bufferTime = 60000; // Refresh 1 minute before expiration
+
+    const timeoutId = setTimeout(() => {
       dispatch(refreshUserAndToken());
-    }, [dispatch]);
-    
+    }, expiresAt - Date.now() - bufferTime);
 
-
-
-    useEffect(() => {
-      const accessToken = localStorage.getItem('accessToken');
-      if (!accessToken) return;
-  
-      const decoded = jwtDecode(accessToken); // Correct usage
-      const expiresAt = decoded.exp * 1000;
-      const bufferTime = 60000; // Refresh 1 minute before expiration
-  
-      const timeoutId = setTimeout(() => {
-        dispatch(refreshUserAndToken());
-
-      }, expiresAt - Date.now() - bufferTime);
-  
-      return () => clearTimeout(timeoutId);
-    }, [dispatch]);
+    return () => clearTimeout(timeoutId);
+  }, [dispatch]);
 
   return (
     <div style={{ height: "100vh" }}>
-          <CommentsContext.Provider value={{ comments, setComments }}>
-              <Router>
-                <Header />
-                <Sider />
-                <Routes>
-                  <Route path="/login" element={<Login />} />
-                  <Route path="/register" element={<Register />} />
-                  <Route element={<Protected />}>
-                    <Route path="/Favorites" element={<Favorites />} />
-                    <Route path="/MyPosts" element={<MyPosts />} />
-                    <Route path="/Profile" element={<Profile/>} />
-                    <Route path="/" element={<Home />} />
-                  </Route>
-                  <Route element={<useTokenRefresh />} />
-                </Routes>
-              </Router>
-          </CommentsContext.Provider>
+      <CommentsContext.Provider value={{ comments, setComments }}>
+        <Router>
+          <Header />
+          <Sider />
+          <Routes>
+            <Route path="/login" element={<Login />} />
+            <Route path="/register" element={<Register />} />
+            <Route element={<Protected />}>
+              <Route path="/Favorites" element={<Favorites />} />
+              <Route path="/MyPosts" element={<MyPosts />} />
+              <Route path="/Profile" element={<Profile />} />
+              <Route path="/" element={<Home />} />
+            </Route>
+          </Routes>
+        </Router>
+      </CommentsContext.Provider>
     </div>
   );
 }
