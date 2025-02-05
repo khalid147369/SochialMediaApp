@@ -2,7 +2,7 @@ import React, { createContext, useContext, useEffect, useRef, useState } from "r
 
 const WebSocketContext = createContext(null);
 import {sendPostAction}from '../features/postsSlice'
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { backendUrlWs } from "../config";
 import Cookies from "universal-cookie";
 export const WebSocketProvider = ({ children  }) => {
@@ -11,11 +11,19 @@ export const WebSocketProvider = ({ children  }) => {
   const [messages, setMessages] = useState([]);
  const dispatch = useDispatch();
    const cookie = new Cookies();
+  const { user } = useSelector((state) => state.user);
  const token = cookie.get('token');
 
   useEffect(() => {
+    if (!token) {
+        console.log("Token not available yet. WebSocket connection will not be created.");
+        return;
+      }
     // Only create a connection if one doesn't already exist.
     if (!wsRef.current) {
+        console.log(user)
+        console.log(token)
+        
       wsRef.current = new WebSocket(`${backendUrlWs}/api/websocket/connect?token=${token}`);
 
       wsRef.current.onopen = () => {

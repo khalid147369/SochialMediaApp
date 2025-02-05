@@ -41,7 +41,7 @@ function MyPosts() {
     setCollapsed(true);
   };
   return (
-      <Layout style={myPosts.lenght >0? {height:"fit-content"}:{height:"100vh"}} className="  p-10 ">
+      <Layout style={myPosts.lenght >0? {height:"100vh"}:{height:"fit-content"}} className="   ">
             <div className="fixed z-10 right-3 top-3 md:right-5 md:top-6 h-fit w-fit ">
                           <Avata
                             isClicked={isAvatarClosed}

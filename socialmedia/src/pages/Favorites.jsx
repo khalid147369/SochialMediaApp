@@ -42,17 +42,17 @@ function Favorites() {
     setCollapsed(true);
   };
   return (
-      <Layout style={favorites.lenght >0? {height:"fit-content"}:{height:"100vh"}} className=" p-10">
-           <div className="fixed z-10 right-3 top-3 md:right-5 md:top-6 h-fit w-fit ">
+      <Layout style={favorites.lenght >0? {height:"fit-content"}:{height:"100vh"}} className="  md:p-10 ">
+           <div className="fixed z-10 right-3 top-3 md:right-5 md:top-6 h-fit w-fit  ">
                   <Avata
                     isClicked={isAvatarClosed}
                     content={user.userName}
                     imageSrc={`${backendUrl}${user.avatar}`}
                   />
                 </div>
-        <Layout className="h-fit backroundgridient">
+        <Layout className="h-fit backroundgridient  ">
           <Content
-            className="flex mx-auto md:mx-0 flex-col items-center gap-10 h-fit w-fit md:w-auto bg-transparent"
+            className="flex  md:mx-0 flex-col items-center  gap-10 h-fit w-fit md:w-auto bg-transparent mx-auto"
             style={{
               margin: "24px 25px",
               padding: 24,
