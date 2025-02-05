@@ -6,7 +6,7 @@ import { CommentsContext } from "../context/CommentsContext";
 import useSendComment from "../hooks/useSendComment";
 import useGetComment from "../hooks/useGetComment";
 import { useLocation } from "react-router-dom";
-import './Post.css'
+import "./Post.css";
 import {
   EllipsisOutlined,
   LikeOutlined,
@@ -14,6 +14,7 @@ import {
   CommentOutlined,
   DeleteOutlined,
 } from "@ant-design/icons";
+import {motion} from 'framer-motion'
 import ChatBubbleOutlineIcon from "@mui/icons-material/ChatBubbleOutline";
 import { Avatar, Card, Popover, Empty } from "antd";
 import { backendUrl } from "../config";
@@ -22,7 +23,7 @@ import Cookies from "universal-cookie";
 // import { Button } from "antd/es/radio";
 import { Button } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
-import { deletePosts} from '../features/myPostsSlice'
+import { deletePosts } from "../features/myPostsSlice";
 
 const { Meta } = Card;
 
@@ -50,7 +51,7 @@ const Post = ({
   const { user } = useSelector((state) => state.user);
 
   const location = useLocation();
-const dispatch = useDispatch();
+  const dispatch = useDispatch();
 
   useEffect(() => {
     // Load the liked state for this post from localStorage
@@ -95,7 +96,6 @@ const dispatch = useDispatch();
           },
         })
         .then(async (response) => {
-          
           console.log(response);
         });
     } else {
@@ -124,16 +124,19 @@ const dispatch = useDispatch();
           <BookmarkBorderSharpIcon className=" " />
           <p>{isSavedText}</p>
         </Button>
-       {location.pathname==="/MyPosts"&&<Button
-       onClick={()=>{dispatch(deletePosts(PostId))}}
-          onMouseEnter={() => setcolor2("text-white")}
-          onMouseLeave={() => setcolor2("text-red-500")}
-          className={`${color2}  w-full  flex gap-5`}
-        >
-          <DeleteOutlined className=" text-xl " />
-          <p>delete post</p>
-        </Button>}
-       
+        {location.pathname === "/MyPosts" && (
+          <Button
+            onClick={() => {
+              dispatch(deletePosts(PostId));
+            }}
+            onMouseEnter={() => setcolor2("text-white")}
+            onMouseLeave={() => setcolor2("text-red-500")}
+            className={`${color2}  w-full  flex gap-5`}
+          >
+            <DeleteOutlined className=" text-xl " />
+            <p>delete post</p>
+          </Button>
+        )}
       </Fragment>
 
       <hr />
@@ -194,43 +197,44 @@ const dispatch = useDispatch();
   };
 
   const date = new Date(createdAt);
-  const now = Date.now()
+  const now = Date.now();
   // const DifferenceDate = date -now
   const DifferenceDate = now - date;
   var publicatedAfter = Math.floor(DifferenceDate / 1000);
-  console.log(cmnts)
   return (
-    <div className=" w-80 md:w-1/2 shadow-sm h-fit ">
+    
+    <div className=" w-80 md:w-1/2 shadow-sm h-fit mx-auto ">
+      <motion.div  initial={{ opacity: 0, y: 0 }}
+    animate={{ opacity: 1, y: 0 }}
+    exit={{ opacity: 1, y: 0 }}
+    transition={{ duration: 0.5 }}>
       <Card
         className=" relative postBackround custom-card-actions h-fit  "
         cover={
           imageName == null || imageName == "" ? (
             ""
           ) : (
-            <img alt="example" className=" w-56 mx-auto" src={`${backendUrl}${imageName}`} />
+            <img alt="example" src={`${backendUrl}${imageName}`} />
           )
         }
-        
         actions={[
           <Popover
-          
             key="ellipses"
             placement="top"
             title={text}
             content={content}
             trigger="click"
           >
-            <EllipsisOutlined className=" text-xl "  />
+            <EllipsisOutlined className=" text-xl " />
           </Popover>,
-          <div onClick={handleComment} key="chat" >
-            <ChatBubbleOutlineIcon className=" text-xl mt-2 "  />
+          <div onClick={handleComment} key="chat">
+            <ChatBubbleOutlineIcon className=" text-xl mt-2 " />
           </div>,
           isLiked ? (
             <LikeFilled
               className=" text-xl text-blue-600 "
               key="like"
               onClick={handleLike}
-              
             />
           ) : (
             <LikeOutlined
@@ -249,35 +253,49 @@ const dispatch = useDispatch();
               <Avatar src={`${backendUrl}${avatarSrc}`} />
             )
           }
-          title={`${title}`}
-          description={`${descreption}`}
+          title={
+            <div className="flex justify-between">
+              <p>{title}</p>
+              <p className="font-normal">{handleDate(publicatedAfter)}</p>
+            </div>
+          }
+          description={
+            <div className="     flex flex-col ">
+              <p>{descreption}</p>
+              <div className=" mt-3 mb-1  flex justify-between ">
+                <div className="flex absolute left-5 gap-1  ">
+                  <CommentOutlined />
+                  <div>{commentsLenght}</div>
+                </div>
+
+                <div className="flex absolute right-5 gap-1">
+                  <p>{like}</p>
+                  <LikeFilled className=" " />
+                </div>
+              </div>
+            </div>
+          }
         />
-
-        <div className="relative top-4 flex justify-between ">
-          <div className="flex gap-2">
-            <CommentOutlined />
-            <div>{commentsLenght}</div>
-          </div>
-
-          <div className="flex gap-1">
-            <p>{like}</p>
-            <LikeFilled className=" text-blue-600" />
-          </div>
-        </div>
-        <div className=" relative z-10 -right-52 md:-right-60 lg:-right-80 -top-20 w-fit ">
-          {handleDate(publicatedAfter)}
-        </div>
       </Card>
 
-      {showComment ? (
-        <div className="fixed inset-0 bg-gray-100   bg-opacity-55  flex items-center justify-center z-20">
+      { showComment ? (
+        <motion.div  initial={{ opacity: 0, y: 0 }}
+        animate={{ opacity: 1, y: 0 }}
+        exit={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }} style={{transition:"2s"}} className="fixed   inset-0 bg-gray-100   bg-opacity-55  flex items-center justify-center z-20">
           <Card className="w-96 px-0 postBackround ">
             <div className=" cursor-pointer" onClick={handleCloseCommentBox}>
               X
             </div>
             {cmnts.length == 0 ? (
               <p className="overflow-y-auto p-5 max-h-80 w-full ">
-                <Empty className="flex flex-col justify-center items-center"  image={"https://gw.alipayobjects.com/zos/antfincdn/ZHrcdLPrvN/empty.svg"}  description={"this Post doesn't have comments yet"} />
+                <Empty
+                  className="flex flex-col justify-center items-center"
+                  image={
+                    "https://gw.alipayobjects.com/zos/antfincdn/ZHrcdLPrvN/empty.svg"
+                  }
+                  description={"this Post doesn't have comments yet"}
+                />
               </p>
             ) : (
               <div className="overflow-y-auto p-5 max-h-80">
@@ -289,7 +307,6 @@ const dispatch = useDispatch();
                     dateDime={comment.date}
                     title={title}
                   />
-
                 ))}
               </div>
             )}
@@ -298,10 +315,11 @@ const dispatch = useDispatch();
               handleSendComment={(cm) => handleSendComment(cm)}
             />
           </Card>
-        </div>
+        </motion.div>
       ) : (
         ""
       )}
+      </motion.div>
     </div>
   );
 };

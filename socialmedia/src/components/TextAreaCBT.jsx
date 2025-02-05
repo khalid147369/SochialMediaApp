@@ -3,20 +3,26 @@ import UploadButton from "./UploadButton";
 import { Input } from "antd";
 import { SendOutlined } from "@ant-design/icons";
 import { useDispatch } from "react-redux";
-import useSendPost from "../hooks/useSendPost";
+import {useWebSocket} from '../context/WebSocketContext'
 const { TextArea } = Input;
 
 const TextAreaCBT = () => {
   const [description, setDescription] = useState("");
   const [image, setImage] = useState(null);
   const dispatch = useDispatch();
-  const { sendPost, convertImageToBase64 } = useSendPost();
-
+ const {ws} = useWebSocket()
   const handleImage = (url) => {
     console.log(url);
     setImage(url);
   };
-
+  const convertImageToBase64 = (file) => {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = () => resolve(reader.result);
+      reader.onerror = (error) => reject(error);
+    });
+  };
   const handleSubmit = async () => {
     let imageBase = null;
     if (image) {
@@ -28,13 +34,13 @@ if ( imageBase != null &&  image.name !== null) {
   let imageBase64 = imageBase.split(",")[1];
   console.log("tee")
     const newPost = { Description:description, imageBase64:imageBase64||null,imageName:image.name||null };
-    sendPost(newPost);
+    ws.send(JSON.stringify(newPost) );
     setDescription("");
     setImage(null);
   }else{
     console.log("tee")
       const newPost = { Description:description, imageBase64:null,imageName:null };
-      sendPost(newPost);
+      ws.send(JSON.stringify(newPost) );
       setDescription("");
       setImage(null);
   }
@@ -42,12 +48,12 @@ if ( imageBase != null &&  image.name !== null) {
   };
 
   return (
-    <div className=" flex gap-2">
-      <div className=" absolute   -left-20 bottom-0">
+    <div className="mt-28 md:mt-0  flex gap-2 mx-auto items-center">
+      <div className=" ">
         <UploadButton getImage={handleImage} isEmpty={image} />
       </div>
       <TextArea
-        className=" relative bottom-11 min-w-40  md:w-96"
+        className="  min-w-40  md:w-96"
         placeholder="type a message"
         autoSize={{
           minRows: 2,
@@ -57,7 +63,7 @@ if ( imageBase != null &&  image.name !== null) {
         onChange={(e) => setDescription(e.target.value)}
       />
       <button
-        className="  absolute  -right-20 bottom-1 w-16"
+        className="   w-16"
         onClick={handleSubmit}
       >
         <SendOutlined />

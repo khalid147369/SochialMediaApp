@@ -10,6 +10,7 @@ import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import { CommentsContext } from "./context/CommentsContext";
+import { WebSocketProvider } from "./context/WebSocketContext";
 import Protected from "../src/utils/Protected";
 import Sider from "./pages/MainSider";
 import MyPosts from "./pages/MyPosts";
@@ -32,7 +33,6 @@ function App() {
     dispatch(refreshUserAndToken());
   }, [dispatch]);
 
-
   useEffect(() => {
     const accessToken = localStorage.getItem("accessToken");
     if (!accessToken) return;
@@ -50,22 +50,24 @@ function App() {
 
   return (
     <div style={{ height: "100vh" }}>
-      <CommentsContext.Provider value={{ comments, setComments }}>
-        <Router>
-          <Header />
-          <Sider />
-          <Routes>
-            <Route path="/login" element={<Login />} />
-            <Route path="/register" element={<Register />} />
-            <Route element={<Protected />}>
-              <Route path="/Favorites" element={<Favorites />} />
-              <Route path="/MyPosts" element={<MyPosts />} />
-              <Route path="/Profile" element={<Profile />} />
-              <Route path="/" element={<Home />} />
-            </Route>
-          </Routes>
-        </Router>
-      </CommentsContext.Provider>
+      <WebSocketProvider>
+        <CommentsContext.Provider value={{ comments, setComments }}>
+          <Router>
+            <Header />
+            <Sider />
+            <Routes>
+              <Route path="/login" element={<Login />} />
+              <Route path="/register" element={<Register />} />
+              <Route element={<Protected />}>
+                <Route path="/Favorites" element={<Favorites />} />
+                <Route path="/MyPosts" element={<MyPosts />} />
+                <Route path="/Profile" element={<Profile />} />
+                <Route path="/" element={<Home />} />
+              </Route>
+            </Routes>
+          </Router>
+        </CommentsContext.Provider>
+      </WebSocketProvider>
     </div>
   );
 }

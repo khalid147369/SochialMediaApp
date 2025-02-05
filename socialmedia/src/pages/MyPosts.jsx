@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Empty, Layout, theme } from "antd";
 import Post from "../components/Post";
@@ -8,19 +8,20 @@ import { useNavigate } from "react-router-dom";
 import PostsSkeleton from '../components/PostsSkeleton';
 import '../App.css'
 import Cookies from "universal-cookie";
+import Avata from "../components/Avata";
+import { backendUrl } from "../config";
 function MyPosts() {
   const { Content } = Layout;
   const dispatch = useDispatch();
   const { myPosts, loading, errors } = useSelector((state) => state.myPosts || {});
   const navigate = useNavigate();
- const cookie = new Cookies();
-  const refreshToken = cookie.get("refreshToken")
+  const { user } = useSelector((state) => state.user);
+  const [collapsed, setCollapsed] = useState(true);
+
   const {
     token: { colorBgContainer, borderRadiusLG },
   } = theme.useToken();
-  if (!refreshToken) {
-    navigate("/login")
-  }
+
   useEffect(() => {
     dispatch(getMyPosts());
   }, [dispatch]);
@@ -36,9 +37,18 @@ function MyPosts() {
       navigate("/login");
     }
   }, [errors, navigate]);
-
+  const isAvatarClosed = () => {
+    setCollapsed(true);
+  };
   return (
       <Layout style={myPosts.lenght >0? {height:"fit-content"}:{height:"100vh"}} className="  p-10 ">
+            <div className="fixed z-10 right-3 top-3 md:right-5 md:top-6 h-fit w-fit ">
+                          <Avata
+                            isClicked={isAvatarClosed}
+                            content={user.userName}
+                            imageSrc={`${backendUrl}${user.avatar}`}
+                          />
+                        </div>
         <Layout className="h-fit backroundgridient">
           <Content
             className="flex mx-auto md:mx-0 flex-col items-center gap-10 h-fit w-fit md:w-auto bg-transparent"

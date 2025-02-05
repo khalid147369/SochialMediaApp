@@ -55,13 +55,14 @@ function Register() {
      
         <div className="flex justify-around items-center">
           <h2>Register</h2>
-          <UploadButton getImage={getAvatar} />
+          <UploadButton getImage={getAvatar} UploadDescreption="Upload avatar" />
         </div>
 
         <div className="">
           <label htmlFor="email">Email:</label>
           <Input
             type="email"
+          placeholder="enter an email.."
             id="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
@@ -73,6 +74,7 @@ function Register() {
           <Input
             type="text"
             id="username"
+          placeholder="enter a username.."
             value={userName}
             onChange={(e) => setUserName(e.target.value)}
             required
@@ -86,7 +88,7 @@ function Register() {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
-            placeholder="input password"
+            placeholder="enter a password"
             iconRender={(visible) =>
               visible ? <EyeTwoTone /> : <EyeInvisibleOutlined />
             }
