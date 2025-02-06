@@ -48,7 +48,7 @@ const HeaderSideMenu = ({className ,onSelect,selectedKeys}) => {
     <><Button
         type="primary"
         onClick={toggleCollapsed}
-        className=' w-10'
+        className=' relative top-2 w-10 '
         style={{
           marginBottom: 16,
         }}

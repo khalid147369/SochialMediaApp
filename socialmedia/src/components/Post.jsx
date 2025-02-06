@@ -203,7 +203,7 @@ const Post = ({
   var publicatedAfter = Math.floor(DifferenceDate / 1000);
   return (
     
-    <div className=" w-80 md:w-1/2 shadow-sm h-fit mx-auto ">
+    <div className="  md:mx-auto md:w-1/2 shadow-sm h-fit w-full ">
       <motion.div  initial={{ opacity: 0, y: 0 }}
     animate={{ opacity: 1, y: 0 }}
     exit={{ opacity: 1, y: 0 }}
@@ -214,7 +214,7 @@ const Post = ({
           imageName == null || imageName == "" ? (
             ""
           ) : (
-            <img alt="example" src={`${backendUrl}${imageName}`} />
+            <img className=" h-72 md:h-96" alt="example" src={`${backendUrl}${imageName}`} />
           )
         }
         actions={[

@@ -6,7 +6,7 @@ import { useDispatch } from "react-redux";
 import {useWebSocket} from '../context/WebSocketContext'
 const { TextArea } = Input;
 
-const TextAreaCBT = () => {
+const TextAreaCBT = ({className}) => {
   const [description, setDescription] = useState("");
   const [image, setImage] = useState(null);
   const dispatch = useDispatch();
@@ -48,7 +48,7 @@ if ( imageBase != null &&  image.name !== null) {
   };
 
   return (
-    <div className="mt-28 md:mt-0  flex gap-2 mx-auto items-center">
+    <div className={className}>
       <div className=" ">
         <UploadButton getImage={handleImage} isEmpty={image} />
       </div>

@@ -12,6 +12,7 @@ import Cookies from "universal-cookie"; // Import universal-cookie
 import { useDispatch, useSelector } from "react-redux";
 import { getallPosts, getNextallPosts } from "../features/postsSlice";
 import { data, useNavigate } from "react-router-dom";
+import PopUpBox from "../components/PopUpBox";
 
 // ============================================================
 const { Content } = Layout;
@@ -70,7 +71,7 @@ const Home = () => {
       title={post.title}
       descreption={post.description}
       imageName={post.imagePost}
-      avatarSrc={user.avatar}
+      avatarSrc={post.avatar}
       likes={post.likes}
       createdAt={post.publicatedAt}
       commentsLenght={post.commentsLenght}
@@ -84,12 +85,15 @@ const Home = () => {
         posts.length === 0 ?  { height: "fit-content"  } :{ height: "100vh" }
       }
       onScroll={handleScroll}
-      className="  lg:max-w-5xl mx-auto md:p-10   overflow-y-auto "
+      className="  lg:max-w-5xl md:mx-auto md:p-10   overflow-y-auto "
     >
-      <TextAreaCBT />
+      <PopUpBox  className="custom-popup-box">
+              <TextAreaCBT className="mt-28 md:mt-0  flex gap-2 mx-auto items-center" />
+
+      </PopUpBox>
 
       <Layout className=" bg-transparent " >
-        <div className="fixed z-10 right-3 top-3 md:right-5 md:top-6 h-fit w-fit ">
+        <div className="fixed z-10 right-3 top-2 md:right-5 md:top-6 h-fit w-fit ">
           <Avata
             isClicked={isAvatarClosed}
             content={user.userName}
@@ -98,7 +102,7 @@ const Home = () => {
         </div>
         <Content
         
-          className=" bg-transparent  mx-auto md:mx-0 h-fit w-fit flex flex-col  gap-10 md:items-center md:w-auto mb-20"
+          className=" bg-transparent mx-0 px-0   md:mx-0 h-fit w-full flex flex-col  gap-10 md:items-center md:w-auto mb-20"
           style={{
             margin: "24px 25px",
             padding: 24,
@@ -109,7 +113,7 @@ const Home = () => {
         >
           {loading ? (
             <PostsSkeleton />
-          ) : posts.lenght === 0 ? (
+          ) : posts.length === 0 ? (
             <Empty
               className=" absolute transform -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2"
               description={"no favorites to show"}
