@@ -18,7 +18,7 @@ function MainHeader() {
 
   return (
     <Header
-      className="flex md:hidden p-3 md:p-12 fixed"
+      className="flex md:hidden p-3 md:p-12"
       style={{
         position: "sticky",
         top: 0,
@@ -42,7 +42,7 @@ function MainHeader() {
       >
         <HeaderSideMenu
           onSelect={handleSelectMenu}
-          className={" absolute top-16 "}
+          className={"absolute top-16"}
           selectedKeys={[`${selectedKey}`]}
         />
       </Menu>

@@ -25,7 +25,7 @@ useEffect(() => {
       <Sider
               onMouseEnter={() => setCollapsed(!collapsed)}
               onMouseLeave={() => setCollapsed(!collapsed)}
-              className="fixed h-screen hidden md:block z-20 sider-backround "
+              className=" absolute mt-0 h-screen hidden md:block z-20 sider-backround "
               trigger={null}
               collapsible
               collapsed={collapsed}

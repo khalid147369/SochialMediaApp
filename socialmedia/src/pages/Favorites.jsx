@@ -1,6 +1,6 @@
 import { useEffect,useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Empty, Layout, theme } from "antd";
+import { Empty, Layout, theme, Typography } from "antd";
 import Post from "../components/Post";
 import ErrorBoundary from "../components/ErrorBoundary";
 import { getFavorites } from '../features/favoritesSlice';
@@ -10,6 +10,7 @@ import "../App.css"
 import Cookies from 'universal-cookie';
 import { backendUrl } from '../config';
 import Avata from '../components/Avata';
+import { EditOutlined } from '@ant-design/icons';
 function Favorites() {
   const { Content } = Layout;
   const dispatch = useDispatch();
@@ -41,8 +42,12 @@ function Favorites() {
   const isAvatarClosed = () => {
     setCollapsed(true);
   };
+  if(user.length===0){
+    navigate("/login")
+    } 
   return (
-      <Layout style={favorites.lenght >0? {height:"fit-content"}:{height:"100vh"}} className="  md:p-10 ">
+      <Layout style={favorites.length === 0 ?  { height: "fit-content"  } :{ height: "100vh" }} className="   md:p-10  ">
+        
            <div className="fixed z-10 right-3 top-3 md:right-5 md:top-6 h-fit w-fit  ">
                   <Avata
                     isClicked={isAvatarClosed}
@@ -50,9 +55,9 @@ function Favorites() {
                     imageSrc={`${backendUrl}${user.avatar}`}
                   />
                 </div>
-        <Layout className="h-fit backroundgridient  ">
+        <Layout className="h-fit backroundgridient overflow-y-auto  mt-16 ">
           <Content
-            className="flex  md:mx-0 flex-col items-center  gap-10 h-fit w-fit md:w-auto bg-transparent mx-auto"
+            className="flex mx-0 px-0  md:mx-0 flex-col items-center   h-fit w-full md:w-auto bg-transparent "
             style={{
               margin: "24px 25px",
               padding: 24,

@@ -54,6 +54,7 @@ const UploadButton = ({ getImage, isEmpty ,UploadDescreption="Upload" }) => {
     >
       {loading ? <LoadingOutlined /> : ""}
       <div
+      className=" text-gray-100 font-light"
         style={{
           marginTop: 0,
           color: "#7777",
@@ -69,7 +70,7 @@ const UploadButton = ({ getImage, isEmpty ,UploadDescreption="Upload" }) => {
       <Upload
         // name="avatar"
         listType="picture-card"
-        className="avatar-uploader"
+        className="avatar-uploader "
         showUploadList={false}
         onChange={handleChange}
       >

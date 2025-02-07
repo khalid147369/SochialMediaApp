@@ -1,20 +1,31 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import UploadButton from "./UploadButton";
 import { Input } from "antd";
 import { SendOutlined } from "@ant-design/icons";
 import { useDispatch } from "react-redux";
-import {useWebSocket} from '../context/WebSocketContext'
+import { useWebSocket } from '../context/WebSocketContext';
+import PostColorPicker from "./PostColorPicker";
 const { TextArea } = Input;
 
-const TextAreaCBT = ({className}) => {
+const TextAreaCBT = ({ className }) => {
   const [description, setDescription] = useState("");
   const [image, setImage] = useState(null);
+  const [showColorPicker, setShowColorPicker] = useState(false);
+  const [postColor, setPostColor] = useState("#fff");
   const dispatch = useDispatch();
- const {ws} = useWebSocket()
+  const { ws } = useWebSocket();
+  const textAreaRef = useRef(null);
+
+  const handleOnFocus = () => {
+    setShowColorPicker(true);
+    textAreaRef.current.resizableTextArea.textArea.className = `${textAreaRef.current.resizableTextArea.textArea.className} h-40`;
+  };
+
   const handleImage = (url) => {
     console.log(url);
     setImage(url);
   };
+
   const convertImageToBase64 = (file) => {
     return new Promise((resolve, reject) => {
       const reader = new FileReader();
@@ -23,51 +34,63 @@ const TextAreaCBT = ({className}) => {
       reader.onerror = (error) => reject(error);
     });
   };
+
+  const handleSelectPostColor = (color) => {
+    setPostColor(color.toHexString());
+    console.log(color.toHexString());
+  };
+
   const handleSubmit = async () => {
     let imageBase = null;
     if (image) {
       imageBase = await convertImageToBase64(image);
-      console.log(image)
+      console.log(image);
     }
-    
-if ( imageBase != null &&  image.name !== null) {
-  let imageBase64 = imageBase.split(",")[1];
-  console.log("tee")
-    const newPost = { Description:description, imageBase64:imageBase64||null,imageName:image.name||null };
-    ws.send(JSON.stringify(newPost) );
-    setDescription("");
-    setImage(null);
-  }else{
-    console.log("tee")
-      const newPost = { Description:description, imageBase64:null,imageName:null };
-      ws.send(JSON.stringify(newPost) );
+
+    if (imageBase != null && image.name !== null) {
+      let imageBase64 = imageBase.split(",")[1];
+      console.log("tee");
+      const newPost = { Description: description, imageBase64: imageBase64 || null, imageName: image.name || null, postColor };
+      ws.send(JSON.stringify(newPost));
       setDescription("");
       setImage(null);
-  }
-
+    } else {
+      console.log("tee");
+      const newPost = { Description: description, imageBase64: null, imageName: null, postColor };
+      ws.send(JSON.stringify(newPost));
+      setDescription("");
+      setImage(null);
+    }
   };
 
   return (
     <div className={className}>
-      <div className=" ">
-        <UploadButton getImage={handleImage} isEmpty={image} />
+      <div className="relative flex">
+        <TextArea
+          onFocus={handleOnFocus}
+          ref={textAreaRef}
+          className="min-w-40 md:w-96 transition"
+          placeholder="type a message"
+          autoSize={{
+            minRows: 2,
+            maxRows: 6,
+          }}
+          value={description}
+          onChange={(e) => setDescription(e.target.value)}
+        />
+        {showColorPicker && (
+          <PostColorPicker
+            className="absolute bottom-2 left-2"
+            onChangeComplete={handleSelectPostColor}
+          />
+        )}
       </div>
-      <TextArea
-        className="  min-w-40  md:w-96"
-        placeholder="type a message"
-        autoSize={{
-          minRows: 2,
-          maxRows: 6,
-        }}
-        value={description}
-        onChange={(e) => setDescription(e.target.value)}
-      />
-      <button
-        className="   w-16"
-        onClick={handleSubmit}
-      >
-        <SendOutlined />
-      </button>
+      <div className="flex gap-9">
+        <UploadButton getImage={handleImage} isEmpty={image} />
+        <button style={{ width: "67px" }} onClick={handleSubmit}>
+          <SendOutlined />
+        </button>
+      </div>
     </div>
   );
 };

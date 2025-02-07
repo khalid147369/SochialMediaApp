@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch ,useSelector } from "react-redux";
 import { setUser } from "../features/userSlice";
 import "./Login.css";
 import { backendUrl } from "../config";
@@ -17,6 +17,7 @@ function Login() {
   const [userName, setuserName] = useState("");
   const [password, setPassword] = useState("");
   const [errors, setErrors] = useState("");
+  const {userLoading ,user} = useSelector((state)=>state.user)
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -46,7 +47,10 @@ function Login() {
       // Handle login failure here
     }
   };
-
+  if (!userLoading && !user) {
+    navigate("/login")
+  }
+console.log(userLoading)
   return (
     <div className="login-container">
       <form className="login-form" onSubmit={handleSubmit}>

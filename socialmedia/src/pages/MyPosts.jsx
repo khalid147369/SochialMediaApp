@@ -40,8 +40,12 @@ function MyPosts() {
   const isAvatarClosed = () => {
     setCollapsed(true);
   };
+  console.log(user)
+  if(user.length===0){
+    navigate("/login")
+    }  
   return (
-      <Layout style={myPosts.lenght >0? {height:"100vh"}:{height:"fit-content"}} className="   ">
+      <Layout style={myPosts.length === 0 ?  { height: "fit-content"  } :{ height: "100vh" }} className="  overflow-y-auto   ">
             <div className="fixed z-10 right-3 top-3 md:right-5 md:top-6 h-fit w-fit ">
                           <Avata
                             isClicked={isAvatarClosed}
@@ -49,9 +53,9 @@ function MyPosts() {
                             imageSrc={`${backendUrl}${user.avatar}`}
                           />
                         </div>
-        <Layout className="h-fit backroundgridient">
+        <Layout className="h-fit backroundgridient overflow-y-auto mt-16">
           <Content
-            className="flex mx-auto md:mx-0 flex-col items-center gap-10 h-fit w-fit md:w-auto bg-transparent"
+            className="flex mx-0 px-0 md:mx-0 flex-col items-center  h-fit w-full md:w-auto bg-transparent"
             style={{
               margin: "24px 25px",
               padding: 24,

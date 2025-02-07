@@ -6,7 +6,7 @@ import { useEffect } from "react";
 
 const initialState = {
   user: [],
-  status: "idle",
+  userLoading: false,
   error: null,
 };
 
@@ -79,14 +79,14 @@ const userSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(refreshUserAndToken.pending, (state) => {
-        state.status = "loading";
+        state.userLoading = true;
       })
       .addCase(refreshUserAndToken.fulfilled, (state, action) => {
-        state.status = "succeeded";
+        state.userLoading = false;
         state.user = action.payload;
       })
       .addCase(refreshUserAndToken.rejected, (state, action) => {
-        state.status = "failed";
+        state.userLoading = false;
         state.error = action.error.message;
       })
       //Update user

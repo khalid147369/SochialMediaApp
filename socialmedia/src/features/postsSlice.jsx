@@ -26,7 +26,7 @@ const getNextallPosts = createAsyncThunk(
     const { rejectWithValue ,getState } = thunkAPI;
     console.log(getState().posts.posts.length)
     try {
-      const response = await fetch(`${backendUrl}/api/Posts?pageNumber=${pageNumber}&&pageSize=20`);
+      const response = await fetch(`${backendUrl}/api/Posts?pageNumber=${pageNumber}&&pageSize=10`);
       if (!response.ok) {
         throw new Error(response.errors);
       }
@@ -41,7 +41,7 @@ const getNextallPosts = createAsyncThunk(
 
 const postsSlice = createSlice({
   name: "posts",
-  initialState: { posts: [], loading: false, errors: [] ,pageNumber:1},
+  initialState: { posts: [], loading: false,nextLogin:false, errors: [] ,pageNumber:1},
   reducers: {
     sendPost: (state, action) => {
       state.posts = [action.payload, ...state.posts];
@@ -63,10 +63,10 @@ const postsSlice = createSlice({
       });
 
       builder.addCase(getNextallPosts.pending, (state, action) => {
-        state.loading = true;
+        state.nextLogin = true;
       }),
         builder.addCase(getNextallPosts.fulfilled, (state, action) => {
-          state.loading = false;
+          state.nextLogin = false;
           action.payload.posts.forEach((pt) => {
             state.posts.push(pt);
           });
@@ -74,7 +74,7 @@ const postsSlice = createSlice({
         }),
         builder.addCase(getNextallPosts.rejected, (state, action) => {
           state.errors = action.payload;
-          state.loading = false;
+          state.nextLogin = false;
         });
 
   },

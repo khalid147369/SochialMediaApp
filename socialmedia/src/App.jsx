@@ -49,7 +49,7 @@ function App() {
   }, [dispatch]);
 
   return (
-    <div style={{ height: "100vh" }}>
+    <div style={{ height: "100vh" }}  >
       <WebSocketProvider>
         <CommentsContext.Provider value={{ comments, setComments }}>
           <Router>
