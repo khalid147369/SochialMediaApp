@@ -71,7 +71,6 @@ const navigate = useNavigate();
   }, [isBottom, dispatch, pageNumber]);
 
   // show all posts
-  console.log(posts);
   const showPosts = posts.map((post) => (
     <Post
       key={post.id}
