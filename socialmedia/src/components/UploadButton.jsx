@@ -70,7 +70,7 @@ const UploadButton = ({ getImage, isEmpty ,UploadDescreption="Upload" }) => {
       <Upload
         // name="avatar"
         listType="picture-card"
-        className="avatar-uploader "
+        className="avatar-uploader  "
         showUploadList={false}
         onChange={handleChange}
       >

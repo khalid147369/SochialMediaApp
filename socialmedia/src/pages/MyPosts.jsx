@@ -53,7 +53,7 @@ function MyPosts() {
                             imageSrc={`${backendUrl}${user.avatar}`}
                           />
                         </div>
-        <Layout className="h-fit backroundgridient overflow-y-auto mt-16">
+        <Layout className="h-fit backroundgridient overflow-y-auto ">
           <Content
             className="flex mx-0 px-0 md:mx-0 flex-col items-center  h-fit w-full md:w-auto bg-transparent"
             style={{
@@ -76,7 +76,8 @@ function MyPosts() {
                   likes={post.likes}
                   commentsLenght={post.commentsLenght}
                   createdAt={post.publicatedAt}
-
+                  postColor={post.postColor}
+                  
                 />
               ))}
           </Content>

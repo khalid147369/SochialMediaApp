@@ -281,7 +281,7 @@ const Post = ({
                 ) : (
                   <p
                     style={{ background: postColor }}
-                    className="h-80   md:h-96 flex items-center text-4xl text-white justify-center font-bold"
+                    className="h-80 px-9  md:h-96 flex items-center text-4xl text-white justify-center font-bold"
                   >
                     {descreption}
                   </p>

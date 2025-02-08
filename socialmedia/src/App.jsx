@@ -36,7 +36,7 @@ function App() {
   useEffect(() => {
     const accessToken = localStorage.getItem("accessToken");
     if (!accessToken) return;
-
+console.log("refreshin after 1 min")
     const decoded = jwtDecode(accessToken); // Correct usage
     const expiresAt = decoded.exp * 1000;
     const bufferTime = 60000; // Refresh 1 minute before expiration
@@ -49,7 +49,7 @@ function App() {
   }, [dispatch]);
 
   return (
-    <div style={{ height: "100vh" }}  >
+    <div style={{ height: "100vh"  }} className=" flex flex-col"  >
       <WebSocketProvider>
         <CommentsContext.Provider value={{ comments, setComments }}>
           <Router>

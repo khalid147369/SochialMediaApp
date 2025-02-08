@@ -97,7 +97,7 @@ const navigate = useNavigate();
       <div className="postBackround h-fit mb-1 py-5">
         <Row className="flex border  justify-center px-4 py-2 rounded-full w-fit gap-8 items-center  mx-auto ">
           <Col>
-            <Avatar src={`${backendUrl}/${user.avatar}`} />
+            <Avatar  src={`${backendUrl}/${user.avatar}`} />
           </Col>
           <Col>
             <p>add post !</p>
