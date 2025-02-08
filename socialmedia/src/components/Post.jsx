@@ -212,7 +212,7 @@ const Post = ({
         transition={{ duration: 0.5 }}
       >
         <Card
-          className=" relative postBackround rounded-none custom-card-actions h-fit overflow-hidden w-full    "
+          className=" relative postBackround rounded-none custom-card-actions h-fit overflow-hidden w-full px-0 mx-0   "
           actions={[
             <Popover
               key="ellipses"
@@ -281,7 +281,7 @@ const Post = ({
                 ) : (
                   <p
                     style={{ background: postColor }}
-                    className="h-80 ml-2  md:h-96 flex items-center text-4xl text-white justify-center font-bold"
+                    className="h-80   md:h-96 flex items-center text-4xl text-white justify-center font-bold"
                   >
                     {descreption}
                   </p>
