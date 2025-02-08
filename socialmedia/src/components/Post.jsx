@@ -271,7 +271,8 @@ const Post = ({
                     <p className=" relative font-normal text-black mt-2 ml-2 mb-1 z-30">{descreption}</p>
                     
                       <img
-                        className=" h-80 md:h-96"
+                      style={{height:"450px"}}
+                        className=" "
                         alt="example"
                         src={`${backendUrl}${imageName}`}
                       />
