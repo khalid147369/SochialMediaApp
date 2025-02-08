@@ -242,7 +242,7 @@ const Post = ({
           ]}
         >
           <Meta
-            className=" h-fit   "
+            className=" h-fit flex flex-col   "
             avatar={
               <div className="ml-2">
                 <div className=" flex items-center gap-2">

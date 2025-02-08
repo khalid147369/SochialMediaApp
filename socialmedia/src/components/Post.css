@@ -14,15 +14,15 @@
 
 @media (max-width: 768px){
 :where(.css-dev-only-do-not-override-161f05s).ant-card .ant-card-body {
-  display: flex;
-  flex-direction: column;
+  /* display: flex;
+  flex-direction: column; */
   padding: 24px 0;
   border-radius: 0 0 8px 8px;
 }
 }
 
 
-.ant-card-body{
+/* .ant-card-body{
   display: flex;
   flex-direction: column;
-}
+} */
