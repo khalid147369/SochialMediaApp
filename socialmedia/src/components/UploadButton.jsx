@@ -78,7 +78,8 @@ const UploadButton = ({ getImage, isEmpty ,UploadDescreption="Upload" }) => {
         {imageUrl ? (
           <div className="relative  ">
             <img
-            className="w-20 h-14"
+            style={{height:"102px",width:"102px"}}
+            className=""
               src={imageUrl}
               alt="avatar"
               
@@ -93,7 +94,7 @@ const UploadButton = ({ getImage, isEmpty ,UploadDescreption="Upload" }) => {
      {imageUrl?<button
               className=" absolute transition z-10         -top-3 left-0   bg-opacity-50 bg-slate-600 text-white"
               onClick={handleRemove}
-              style={{ marginTop: "10px",height:"58px" }}
+              style={{ marginTop: "10px",height:"102px" }}
             >
               <DeleteOutlined className=" transition hover:text-blue-500" /> 
             </button>:""}
