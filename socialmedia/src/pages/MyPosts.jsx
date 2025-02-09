@@ -45,7 +45,7 @@ function MyPosts() {
     navigate("/login")
     }  
   return (
-      <Layout style={myPosts.length === 0 ?  { height: "fit-content"  } :{ height: "100vh" }} className="  overflow-y-auto   ">
+      <Layout style={myPosts.length === 0 ?  { height: "fit-content"  } :{ height: "calc(100vh - 20px)" }} className="  overflow-y-auto   ">
             <div className="fixed z-10 right-3 top-3 md:right-5 md:top-6 h-fit w-fit ">
                           <Avata
                             isClicked={isAvatarClosed}
@@ -64,7 +64,11 @@ function MyPosts() {
               borderRadius: borderRadiusLG,
             }}
           >
-            { loading ? <PostsSkeleton /> : myPosts.length===0?<Empty className=" absolute transform -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2" description={"no posts to show"}/>: myPosts &&
+            { loading ? <div style={{ height: "calc(100vh - 64px)" }} className='  w-screen'>
+                                      <PostsSkeleton />
+                                      <PostsSkeleton />
+                                      <PostsSkeleton />
+                                    </div> : myPosts.length===0?<Empty className=" absolute transform -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2" description={"no posts to show"}/>: myPosts &&
               myPosts.map((post) => (
                 <Post
                   key={post.id}

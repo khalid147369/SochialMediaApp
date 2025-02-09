@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import UploadButton from "./UploadButton";
-import { Input } from "antd";
+import { Button, Input } from "antd";
 import { SendOutlined } from "@ant-design/icons";
 import { useDispatch } from "react-redux";
 import { useWebSocket } from '../context/WebSocketContext';
@@ -65,11 +65,12 @@ const TextAreaCBT = ({ className }) => {
 
   return (
     <div className={className}>
+      <UploadButton getImage={handleImage} isEmpty={image} />
       <div className="relative flex">
         <TextArea
           onFocus={handleOnFocus}
           ref={textAreaRef}
-          className="min-w-40 md:w-96 transition"
+          className="min-w-40 md:w-80 transition"
           placeholder="type a message"
           autoSize={{
             minRows: 2,
@@ -85,12 +86,10 @@ const TextAreaCBT = ({ className }) => {
           />
         )}
       </div>
-      <div className="flex gap-9">
-        <UploadButton getImage={handleImage} isEmpty={image} />
-        <button style={{ width: "67px" }} onClick={handleSubmit}>
-          <SendOutlined />
+        
+        <button style={{ width: "67px"   }} className=" min-w-fit px-8 py-1 " onClick={handleSubmit}>
+         Post
         </button>
-      </div>
     </div>
   );
 };

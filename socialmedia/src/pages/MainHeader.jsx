@@ -12,6 +12,7 @@ function MainHeader() {
   const { setSelectedKey, selectedKey } = usechangeMenu();
 
   const handleSelectMenu = (e) => {
+    console.log(e.key)
     setSelectedKey(e.key);
     localStorage.setItem("selectedKey", e.key);
   };

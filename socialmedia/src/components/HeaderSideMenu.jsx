@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   AppstoreOutlined,
   ContainerOutlined,
@@ -37,6 +37,7 @@ const HeaderSideMenu = ({className ,onSelect,selectedKeys}) => {
   const [collapse, setCollapse] = useState("collapse");
   const toggleCollapsed = () => {
     setCollapsed(!collapsed);
+    console.log(collapsed)
     collapse?
     setCollapse(""):
     setCollapse("collapse")
@@ -65,7 +66,11 @@ const HeaderSideMenu = ({className ,onSelect,selectedKeys}) => {
   
       <Menu
       className={`  relative -left-4  `}
-      onSelect={onSelect}
+      onSelect={(e)=>{
+         onSelect(e)
+        setCollapse("collapse")
+        setCollapsed(!collapsed)
+      }}
       defaultSelectedKeys={["1"]}
       selectedKeys={selectedKeys}
         defaultOpenKeys={['sub1']}

@@ -15,10 +15,11 @@ const UploadButton = ({ getImage, isEmpty ,UploadDescreption="Upload" }) => {
   }, [isEmpty]);
 
   const handleChange = (info) => {
-    if (isRemoving) {
-      setIsRemoving(false);
-      return;
-    }
+    // if (isRemoving) {
+    //   setIsRemoving(false);
+    //   return;
+    // }
+    setIsRemoving(true)
     if (info.file.status === "uploading") {
       setLoading(true);
       return;
@@ -35,7 +36,7 @@ const UploadButton = ({ getImage, isEmpty ,UploadDescreption="Upload" }) => {
   };
 
   const handleRemove = () => {
-    setIsRemoving(true);
+    setIsRemoving(false);
     setImageUrl(null);
     getImage(null);
   };
@@ -66,17 +67,18 @@ const UploadButton = ({ getImage, isEmpty ,UploadDescreption="Upload" }) => {
   );
 
   return (
-    <Flex gap="small" className="" wrap>
+    <Flex gap="small" className=" relative  " wrap>
       <Upload
         // name="avatar"
         listType="picture-card"
-        className="avatar-uploader  "
+        className={isRemoving?`avatar-uploader pointer-events-none `:`avatar-uploader  `}
         showUploadList={false}
         onChange={handleChange}
       >
         {imageUrl ? (
-          <div className="relative w-full">
+          <div className="relative  ">
             <img
+            className="w-20 h-14"
               src={imageUrl}
               alt="avatar"
               
@@ -86,11 +88,12 @@ const UploadButton = ({ getImage, isEmpty ,UploadDescreption="Upload" }) => {
         ) : (
           uploadButton
         )}
+         
       </Upload>
-      {imageUrl?<button
-              className=" absolute transition z-10   top-8 ml-1 h-14    w-16 left-40    bg-opacity-50 bg-slate-600 text-white"
+     {imageUrl?<button
+              className=" absolute transition z-10         -top-3 left-0   bg-opacity-50 bg-slate-600 text-white"
               onClick={handleRemove}
-              style={{ marginTop: "10px" }}
+              style={{ marginTop: "10px",height:"58px" }}
             >
               <DeleteOutlined className=" transition hover:text-blue-500" /> 
             </button>:""}

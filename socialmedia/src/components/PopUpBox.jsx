@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
-import { Avatar } from "antd";
-import { UserOutlined } from "@ant-design/icons";
+import { Avatar, Col, Row } from "antd";
+import { CloseOutlined, CloseSquareOutlined, UserOutlined } from "@ant-design/icons";
 import { useSelector } from "react-redux";
 import { backendUrl } from "../config";
 import PostColorPicker from "./PostColorPicker";
@@ -16,27 +16,32 @@ function PopUpBox({ children, className, show }) {
       transition={{ duration: 0.5 }}
       className={`${className} fixed inset-0 flex items-center justify-center z-10 bg-gray-100 bg-opacity-55`}
     >
-      <div className="w-fit md:w-2/4 lg:w-2/5 flex  items-center bg-slate-400 p-4 rounded-lg  h-fit">
-      <span onClick={show} className=" self-start    cursor-pointer">
-          X
+      <div className=" w-fit md:w-2/4 lg:w-2/5 flex  items-center bg-slate-400 p-4 pt-1 rounded-lg h-fit">
+        
+        <Row className="w-44 md:w-96  md:absolute flex  justify-between items-center self-start absolute transform -translate-x-1/2 left-1/2">
+          <Col className=" flex items-center gap-2">
+            <Avatar
+              src={`${backendUrl}/${user.avatar}`}
+              className="   border border-gray-300 border-dashed"
+
+              icon={<UserOutlined />}
+            />
+            <span>{user.userName}</span>
+          </Col>
+          <Col>
+          <span onClick={show} className="     cursor-pointer">
+          <CloseOutlined />
         </span>
-        
-          <Avatar
-            src={`${backendUrl}/${user.avatar}`}
-            className=" self-start absolute transform -translate-x-1/2 left-1/2  border border-gray-300 border-dashed"
-            shape="square"
-            size={64}
-            icon={<UserOutlined />}
-          />
+          </Col>
           
-        
+        </Row>
 
         {React.Children.map(children, (child) => {
           if (React.isValidElement(child)) {
             return React.cloneElement(child, {
               className: `${
                 child.props.className || ""
-              } mt-0   flex-col  gap-5 h-fit mt-20 `,
+              } mt-0   flex-col  gap-5 h-fit mt-10 md:mt-20  `,
             });
           }
           return child;

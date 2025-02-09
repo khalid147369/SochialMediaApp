@@ -46,7 +46,7 @@ function Favorites() {
     navigate("/login")
     } 
   return (
-      <Layout style={favorites.length === 0 ?  { height: "fit-content"  } :{ height: "100vh" }} className="   md:p-10  ">
+      <Layout style={favorites.length === 0 ?  { height: "fit-content"  } :{ height: "calc(100vh - 20px)" }} className="   md:p-10  ">
         
            <div className="fixed z-10 right-3 top-3 md:right-5 md:top-6 h-fit w-fit  ">
                   <Avata
@@ -67,7 +67,11 @@ function Favorites() {
             }}
           >
             
-            { loading ? <PostsSkeleton />: favorites.length===0?<Empty className=" absolute transform -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2" description={"no favorites to show"}/>:favorites &&
+            { loading ?  <div style={{ height: "calc(100vh - 64px)" }} className='  w-screen'>
+                          <PostsSkeleton />
+                          <PostsSkeleton />
+                          <PostsSkeleton />
+                        </div>: favorites.length===0?<Empty className=" absolute transform -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2" description={"no favorites to show"}/>:favorites &&
               favorites.map((post) => (
                 <Post
                   key={post.id}

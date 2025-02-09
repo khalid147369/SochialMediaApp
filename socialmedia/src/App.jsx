@@ -49,12 +49,15 @@ console.log("refreshin after 1 min")
   }, [dispatch]);
 
   return (
-    <div style={{ height: "100vh"  }} className=" flex flex-col"  >
-      <WebSocketProvider>
-        <CommentsContext.Provider value={{ comments, setComments }}>
-          <Router>
-            <Header />
-            <Sider />
+<div style={{ height: "100vh" }}>
+  <WebSocketProvider>
+    <CommentsContext.Provider value={{ comments, setComments }}>
+      <Router>
+        <Header />
+
+          <Sider />
+
+          
             <Routes>
               <Route path="/login" element={<Login />} />
               <Route path="/register" element={<Register />} />
@@ -65,10 +68,11 @@ console.log("refreshin after 1 min")
                 <Route path="/" element={<Home />} />
               </Route>
             </Routes>
-          </Router>
-        </CommentsContext.Provider>
-      </WebSocketProvider>
-    </div>
+
+      </Router>
+    </CommentsContext.Provider>
+  </WebSocketProvider>
+</div>
   );
 }
 

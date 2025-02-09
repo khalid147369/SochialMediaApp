@@ -88,9 +88,10 @@ const navigate = useNavigate();
 
   return (
     <Layout
-      style={
-        posts.length === 0 ? { height: "fit-content" } : { height: "100vh" }
-      }
+      // style={
+      //   posts.length === 0 ? { height: "fit-content" } : { height: "100vh" }
+      // }
+      style={{ height: "calc(100vh - 64px)" }}
       onScroll={handleScroll}
       className=" py-0 my-0  lg:max-w-5xl md:mx-auto md:p-10   overflow-y-auto   "
     >
