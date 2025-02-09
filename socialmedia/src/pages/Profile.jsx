@@ -9,7 +9,7 @@ function Profile() {
 
 
   return (
-    <div className="flex justify-center w-screen items-center h-screen">
+    <div className="flex justify-center w-full items-center h-screen">
       <ProfileForm className="width  block mx-auto "  />
     </div>
   );

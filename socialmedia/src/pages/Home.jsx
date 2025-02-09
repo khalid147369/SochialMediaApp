@@ -39,7 +39,7 @@ const Home = () => {
   const { posts, loading, pageNumber, nextLogin } = useSelector(
     (state) => state.posts
   );
-  const { user } = useSelector((state) => state.user);
+  const { user ,userLoading } = useSelector((state) => state.user);
 const navigate = useNavigate();
   const scrollRef = useRef(null);
   const [isBottom, setIsBottom] = useState(false);
@@ -85,7 +85,9 @@ const navigate = useNavigate();
       postColor={post.postColor}
     />
   ));
-
+if (!userLoading && user.length ==0) {
+  navigate("/login")
+}
   return (
     <Layout
       // style={

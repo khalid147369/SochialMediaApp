@@ -15,7 +15,7 @@ function MyPosts() {
   const dispatch = useDispatch();
   const { myPosts, loading, errors } = useSelector((state) => state.myPosts || {});
   const navigate = useNavigate();
-  const { user } = useSelector((state) => state.user);
+  const { user , userLoading } = useSelector((state) => state.user);
   const [collapsed, setCollapsed] = useState(true);
 
   const {
@@ -41,11 +41,11 @@ function MyPosts() {
     setCollapsed(true);
   };
   console.log(user)
-  if(user.length===0){
+  if(!userLoading && user.length ==0){
     navigate("/login")
     }  
   return (
-      <Layout style={myPosts.length === 0 ?  { height: "fit-content"  } :{ height: "calc(100vh - 20px)" }} className="  overflow-y-auto   ">
+      <Layout style={{ height: "calc(100vh - 64px)" }} className="  overflow-y-auto   ">
             <div className="fixed z-10 right-3 top-3 md:right-5 md:top-6 h-fit w-fit ">
                           <Avata
                             isClicked={isAvatarClosed}
@@ -53,12 +53,12 @@ function MyPosts() {
                             imageSrc={`${backendUrl}${user.avatar}`}
                           />
                         </div>
-        <Layout className="h-fit backroundgridient overflow-y-auto ">
+        <Layout className="h-fit backroundgridient ">
           <Content
             className="flex mx-0 px-0 md:mx-0 flex-col items-center  h-fit w-full md:w-auto bg-transparent"
             style={{
-              margin: "24px 25px",
-              padding: 24,
+              // margin: "24px 25px",
+              // padding: 24,
               minHeight: 280,
               background: colorBgContainer,
               borderRadius: borderRadiusLG,

@@ -15,7 +15,7 @@ function Favorites() {
   const { Content } = Layout;
   const dispatch = useDispatch();
   const { favorites, loading, errors } = useSelector((state) => state.favorites);
-  const { user } = useSelector((state) => state.user);
+  const { user ,userLoading } = useSelector((state) => state.user);
   const [collapsed, setCollapsed] = useState(true);
 
   const navigate = useNavigate();
@@ -42,11 +42,14 @@ function Favorites() {
   const isAvatarClosed = () => {
     setCollapsed(true);
   };
-  if(user.length===0){
+  if( !userLoading &&user.length===0){
     navigate("/login")
     } 
   return (
-      <Layout style={favorites.length === 0 ?  { height: "fit-content"  } :{ height: "calc(100vh - 20px)" }} className="   md:p-10  ">
+      <Layout 
+      // style={favorites.length === 0 ?  { height: "fit-content"  } :{ height: "calc(100vh - 20px)" }}
+      style={{ height: "calc(100vh - 64px)" }}
+       className="   md:p-10  ">
         
            <div className="fixed z-10 right-3 top-3 md:right-5 md:top-6 h-fit w-fit  ">
                   <Avata
@@ -59,8 +62,8 @@ function Favorites() {
           <Content
             className="flex mx-0 px-0  md:mx-0 flex-col items-center   h-fit w-full md:w-auto bg-transparent "
             style={{
-              margin: "24px 25px",
-              padding: 24,
+              // margin: "24px 25px",
+              // padding: 24,
               minHeight: 280,
               background: colorBgContainer,
               borderRadius: borderRadiusLG,
