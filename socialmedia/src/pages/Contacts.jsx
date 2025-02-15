@@ -3,7 +3,7 @@ import { Send, Menu, ArrowLeft } from "lucide-react";
 import { ChatMessage } from "../components/ChatMessage";
 import { ContactList } from "../components/ContactList";
 import ChatUI from "./ChatUI";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import {getFriends} from '../features/friendsSlice'
 import { useOpenChat } from '../hooks/useOpenChat'
@@ -31,6 +31,7 @@ function Contacts() {
   const navigate = useNavigate()
   const dispatch = useDispatch()
   const { ws} = useOpenChat()
+  const {id} = useParams()
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   };
@@ -42,34 +43,12 @@ dispatch(getFriends())
   }, [messages]);
 //add user to chat 
   useEffect(() => {
+if (id) {
+  const friend = friends.find(fs=>fs.id ===id)
+  setSelectedContact(friend)
+}
 
-      // ws.onopen = () => {
-      //   console.log("WebSocket connected from contact");
-      
-
-      // ws.onmessage = (event) => {
-      //   console.log("Received message:", event.data);
-
-      //   try {
-      //     const data = JSON.parse(event.data);
-      //     dispatch(setMessages(data));
-      //   } catch (event) {
-      //     console.error("Failed to parse message", event.data);
-      //   }
-      // };
-
-      // ws.onerror = (error) => {
-      //   console.error("WebSocket error:", error);
-      // };
-
-      // ws.onclose = () => {
-      //   console.log("WebSocket disconnected");
-      //   // You can implement reconnection logic here if desired.
-      // };
-    // }
-
-    // Do not return a cleanup function here if you want to keep the connection alive for the lifetime of the app.
-  }, [dispatch,ws]);
+  }, [friends,id]);
   const handleSelectContact = (contact) => {
     setSelectedContact(contact);
     console.log(contact)

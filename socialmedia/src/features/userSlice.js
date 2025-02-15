@@ -7,8 +7,11 @@ import { useEffect } from "react";
 const initialState = {
   user: [],
   userLoading: false,
+  userAuthor: false,
+  pageNumber:2,
   author:[],
   error: null,
+  userPostsLoading:false,
 };
 
 const cookie = new Cookies();
@@ -32,7 +35,29 @@ const refreshUserAndToken = createAsyncThunk(
     }
   }
 );
+export const getNextUserPosts = createAsyncThunk(
+  "user/getNextUserPosts",
+  async (pageNumber, thunkAPI) => {
+    const { rejectWithValue, getState } = thunkAPI;
+    const cookie = new Cookies();
+    const token = cookie.get('token'); // Assuming you have an auth slice with a token
 
+    try {
+      const response = await fetch(`${backendUrl}/api/Posts/userPosts?pageNumber=${pageNumber}&&pageSize=10`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+
+      return await response.json();
+    } catch (error) {
+      return rejectWithValue(error);
+    }
+  }
+);
 const getUserById = createAsyncThunk(
   "user/getUserById",
   async (userId, thunkAPI) => {
@@ -119,16 +144,36 @@ const userSlice = createSlice({
         state.status = "failed";
         state.error = action.error.message;
       })
+      //get next user posts 
+      .addCase(getNextUserPosts.pending, (state) => {
+        state.status = "loading";
+        state.userPostsLoading = true;
+      })
+      .addCase(getNextUserPosts.fulfilled, (state, action) => {
+        action.payload.posts.forEach(p=>{
+        state.author.posts.push(p) ;  
+        })
+        
+        state.pageNumber = action.payload.pageNumber ;
+        state.userPostsLoading = false;
+
+      })
+      .addCase(getNextUserPosts.rejected, (state, action) => {
+        state.status = "failed";
+        state.error = action.error.message;
+        state.userPostsLoading = false;
+
+      })
       // get user by id
       .addCase(getUserById.pending, (state) => {
-        // state.userLoading = true;
+        state.userAuthor = true;
       })
       .addCase(getUserById.fulfilled, (state, action) => {
-        // state.userLoading = false;
+        state.userAuthor = false;
         state.author = action.payload;
       })
       .addCase(getUserById.rejected, (state, action) => {
-        // state.userLoading = false;
+        state.userAuthor = false;
         state.error = action.error.message;
       });
   },

@@ -1,41 +1,47 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import PropTypes from "prop-types";
 import { useDispatch, useSelector } from "react-redux";
-import { Empty, Layout, theme } from "antd";
+import { Button, Empty, Layout, theme } from "antd";
 import Post from "../components/Post";
 import ErrorBoundary from "../components/ErrorBoundary";
-import { getMyPosts } from "../features/myPostsSlice";
+import { getNextUserPosts } from "../features/userSlice";
 import { useNavigate } from "react-router-dom";
 import PostsSkeleton from "../components/PostsSkeleton";
 import "../App.css";
 import Cookies from "universal-cookie";
 import Avata from "../components/Avata";
 import { backendUrl } from "../config";
-function MyPosts({ myPosts, loading, errors, children }) {
+function MyPosts({ myPosts, loading, errors, children ,pageNumber}) {
   const { Content } = Layout;
+  const [isBottom ,setIsBottom]   = useState(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { user, userLoading } = useSelector((state) => state.user);
+  const { user, userLoading ,userPostsLoading} = useSelector((state) => state.user);
 
 
   const [collapsed, setCollapsed] = useState(true);
+const containerRef = useRef()
 
   const {
     token: { colorBgContainer, borderRadiusLG },
   } = theme.useToken();
+  const handleScroll = (e) => {
+    const element = e.target;
+    // Use a threshold to account for fractional pixels
+    const isAtBottom =
+      element.scrollHeight - element.scrollTop - element.clientHeight <=10;
+    setIsBottom(isAtBottom);
+  };
 
   useEffect(() => {
-    dispatch(getMyPosts());
-  }, [dispatch]);
+    if (isBottom && pageNumber !== -1 && !userPostsLoading) {
+      dispatch(getNextUserPosts(pageNumber +1)); 
 
-  useEffect(() => {
-    if (!myPosts) {
-      return "myposts not";
     }
-    if (myPosts && myPosts.length > 0) {
-      window.scrollTo(0, document.body.scrollHeight);
-    }
-  }, [myPosts]);
+
+  }, [dispatch , isBottom ,pageNumber ,userPostsLoading ]);
+
+
 
   useEffect(() => {
     if (errors && errors.response && errors.response.status === 401) {
@@ -56,9 +62,12 @@ function MyPosts({ myPosts, loading, errors, children }) {
 
   return (
     <Layout
-      style={{ height: "calc(100vh - 64px)" }}
-      className="  overflow-y-auto   "
+      style={{ height: "calc(100vh - 64px)"  }}
+      className="overflow-y-auto   "
+      onScroll={handleScroll}
+      ref={containerRef}
     >
+      <Button onClick={()=> dispatch(getNextUserPosts(pageNumber +1))}>get posts</Button>
       <div className=" mb-1 h-fit">{children}</div>
       <div className="fixed z-10 right-3 top-3 md:right-5 md:top-6 h-fit w-fit ">
         <Avata
@@ -108,7 +117,12 @@ function MyPosts({ myPosts, loading, errors, children }) {
                 postColor={post.postColor}
               />
             ))
-          )}
+           
+          )} <div  className=" w-full mb-52 ">
+          <PostsSkeleton  />
+
+          </div>
+          
         </Content>
       </Layout>
     </Layout>

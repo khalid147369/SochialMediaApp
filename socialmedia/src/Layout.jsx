@@ -25,12 +25,12 @@ function Layout() {
 
   const hideHeaderOnRoutes = ["/login", "/register", "/Contacts", "/Profile"]; // Add routes where you don't want the header
 
-
+  const headerState = hideHeaderOnRoutes.includes(location.pathname) || /^\/Contacts\/.+$/.test(location.pathname)
 
 
   return (
     <>
-      {!hideHeaderOnRoutes.includes(location.pathname) && <Header />}
+      {!headerState && <Header />}
       <Sider />
       <Routes>
         <Route path="/login" element={<Login />} />
@@ -38,7 +38,7 @@ function Layout() {
         <Route element={<Protected />}>
           <Route path="/Favorites" element={<Favorites />} />
           <Route path="/Profile" element={<Profile />} />
-          <Route path="/Contacts" element={<Contacts />} />
+          <Route path="/Contacts/:id?" element={<Contacts />} />
           <Route path="/Notifications" element={<Notifications />} />
           <Route path="/MainProfile/:id" element={<MainProfile />} />
           <Route path="/" element={<Home />} />

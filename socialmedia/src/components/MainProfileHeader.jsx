@@ -20,10 +20,11 @@ import {
   deleteRequest,
   checkIsfriend,
 } from "../features/friendsSlice";
-function MainProfileHeader({ author }) {
+import PostsSkeleton from './PostsSkeleton'
+function MainProfileHeader({ author ,AuthorLoading }) {
   const [isUser, setIsUser] = useState(false);
-  const { user } = useSelector((state) => state.user);
-  const { isFriend } = useSelector((state) => state.friends);
+  const { user  } = useSelector((state) => state.user);
+  const { isFriend ,loading } = useSelector((state) => state.friends);
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const addFriendRef = useRef();
@@ -46,15 +47,24 @@ function MainProfileHeader({ author }) {
       JSON.stringify({
         cancelRef:
         
-          !JSON.parse(localStorage.getItem(author.userId))?.cancelRef && JSON.parse(localStorage.getItem(author.userId))?.addFriendRef != "hidden" ?  
+          (JSON.parse(localStorage.getItem(author.userId))?.cancelRef===null || JSON.parse(localStorage.getItem(author.userId))?.cancelRef==="") && (JSON.parse(localStorage.getItem(author.userId))?.addFriendRef === ""||JSON.parse(localStorage.getItem(author.userId))?.addFriendRef === null ) ?  
           "hidden":"",
         addFriendRef:
           JSON.parse(localStorage.getItem(author.userId))?.addFriendRef || "",
       })
     );
-  }, [author.userId]);
+  }, [author]);
+
+if(AuthorLoading){
+return (<div>
+  <PostsSkeleton />
+  <PostsSkeleton/>
+</div>)
+}
+
+
   return (
-    <Card className="relative">
+    <Card className="relative h-96">
       <div className="absolute bottom-0 left-0 w-full h-1/2 z-20 postBackround px-4 ">
         <div className=" relative bg-white w-36 h-36  rounded-full bottom-24 overflow-hidden">
           {author.avatar === undefined || author.avatar === null ? (
@@ -63,9 +73,9 @@ function MainProfileHeader({ author }) {
             <img src={`${backendUrl}/${author.avatar}`} />
           )}
         </div>
-        <div className="relative flex flex-col gap-1  bottom-12 h-full">
-          <h1 className=" relative bottom-10 left-8 font-bold text-2xl ">
-            {author.userName}
+        <div className="relative flex flex-col gap-1  bottom-16 h-full">
+          <h1 className=" relative bottom-6 left-8 font-bold text-2xl ">
+            {author.username}
           </h1>
           {isUser ? (
             <>
@@ -138,7 +148,7 @@ function MainProfileHeader({ author }) {
               )}
 
               <Button
-                onClick={() => navigate("/Profile")}
+                onClick={() => navigate(`/Contacts/${author.userId}`)}
                 className=" bg-blue-500 text-white"
               >
                 <SendOutlined />
@@ -150,7 +160,8 @@ function MainProfileHeader({ author }) {
       </div>
       <CardMedia
         component="img"
-        height="200"
+        // height="50"
+        className=" relative h-48"
         image={
           author.avatar === undefined || author.avatar === null
             ? undifindUser

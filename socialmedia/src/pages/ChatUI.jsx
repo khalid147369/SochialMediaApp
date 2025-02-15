@@ -65,8 +65,9 @@ useEffect(()=>{
           <ChatMessage
               key={message.id}
               message={message.content}
-              
-              isReceived={message.senderId == user.userId || message.userId == user.userId ?false:message.userId ==contact.id ?true:""}
+              Contactavatar = {contact.avatar}
+              userAvatar = {user.avatar}
+              isReceived={message.senderId == user.userId || message.userId == user.userId ?false:message.userId ==contact.id || message.senderId ==contact.id ?true:""}
               timestamp={message.timestamp}
             />{console.log("isresieved >>>>",message.senderId)}</>
           ))}
