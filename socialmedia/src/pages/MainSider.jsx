@@ -1,6 +1,6 @@
 import  { useState ,useRef ,useEffect } from 'react';
 import { Menu ,Layout} from 'antd';
-import { HomeOutlined, UploadOutlined ,BookOutlined } from '@ant-design/icons';
+import { HomeOutlined, UploadOutlined ,BookOutlined, WechatOutlined, BellOutlined } from '@ant-design/icons';
 const { Sider } = Layout;
 import { Link ,useLocation } from 'react-router-dom';
 import "../App.css"
@@ -55,8 +55,13 @@ useEffect(() => {
                   },
                   {
                     key: "3",
-                    icon: <Link to={"/MyPosts"}><UploadOutlined  /></Link> ,
-                    label: "My Posts",
+                    icon: <Link to={"/Contacts"}><WechatOutlined />  </Link> ,
+                    label: "Contacts",
+                  },
+                  {
+                    key: "4",
+                    icon: <Link to={"/Notifications"}>< BellOutlined />  </Link> ,
+                    label: "Notifications",
                   },
                 ]}
               />

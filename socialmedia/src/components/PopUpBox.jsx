@@ -20,12 +20,13 @@ function PopUpBox({ children, className, show }) {
         
         <Row className="w-44 md:w-96  md:absolute flex  justify-between items-center self-start absolute transform -translate-x-1/2 left-1/2">
           <Col className=" flex items-center gap-2">
-            <Avatar
+            {user.avatar?<Avatar
               src={`${backendUrl}/${user.avatar}`}
               className="   border border-gray-300 border-dashed"
 
               icon={<UserOutlined />}
             />
+            :<Avatar>{user.userName[0]}</Avatar>}
             <span>{user.userName}</span>
           </Col>
           <Col>

@@ -23,7 +23,7 @@ function MainHeader() {
       style={{
         position: "sticky",
         top: 0,
-        zIndex: 1,
+        zIndex: 50,
         width: "100%",
         alignItems: "center",
         display: "flex",

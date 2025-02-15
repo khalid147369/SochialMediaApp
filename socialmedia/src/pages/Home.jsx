@@ -39,8 +39,8 @@ const Home = () => {
   const { posts, loading, pageNumber, nextLogin } = useSelector(
     (state) => state.posts
   );
-  const { user ,userLoading } = useSelector((state) => state.user);
-const navigate = useNavigate();
+  const { user, userLoading } = useSelector((state) => state.user);
+  const navigate = useNavigate();
   const scrollRef = useRef(null);
   const [isBottom, setIsBottom] = useState(false);
 
@@ -83,11 +83,15 @@ const navigate = useNavigate();
       createdAt={post.publicatedAt}
       commentsLenght={post.commentsLenght}
       postColor={post.postColor}
+      userId={post.userId}
     />
   ));
-if (!userLoading && user.length ==0) {
-  navigate("/login")
-}
+  if (user == []) {
+    navigate("/login");
+  }
+  if (!user && !userLoading && (!user || user.length === 0)) {
+    navigate("/login");
+  }
   return (
     <Layout
       // style={
@@ -97,10 +101,14 @@ if (!userLoading && user.length ==0) {
       onScroll={handleScroll}
       className=" py-0 my-0  lg:max-w-5xl md:mx-auto md:p-10   overflow-y-auto   "
     >
-      <div className="postBackround h-fit mb-1 py-5">
+      <div className="postBackround h-fit mb-1 py-5 shadow-slate-500 shadow-sm ">
         <Row className="flex border  justify-center px-4 py-2 rounded-full w-fit gap-8 items-center  mx-auto ">
           <Col>
-            <Avatar  src={`${backendUrl}/${user.avatar}`} />
+            {user.avatar ? (
+              <Avatar src={`${backendUrl}/${user.avatar}`} />
+            ) : (
+              <Avatar>{user.userName && user.userName[0] }</Avatar>
+            )}
           </Col>
           <Col>
             <p>add post !</p>
@@ -125,7 +133,7 @@ if (!userLoading && user.length ==0) {
         className=" bg-transparent py-0 my-0  "
         style={{ marginBottom: "20px" }}
       >
-        <div className="fixed  z-10 right-3 top-2 md:right-5 md:top-6 h-fit w-fit ">
+        <div className="fixed  z-50 right-3 top-2 md:right-5 md:top-6 h-fit w-fit ">
           <Avata
             isClicked={isAvatarClosed}
             content={user.userName}

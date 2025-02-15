@@ -10,6 +10,7 @@ import {
   Upload,
 } from 'antd';
 import { backendUrl } from '../config';
+import '../App.css';
 
 const ProfileForm = ({ className }) => {
   const dispatch = useDispatch();
@@ -36,6 +37,7 @@ setFileList(user.avatar ? [{ url: `${backendUrl}${user.avatar}` }] : [])
   return (
     <div className={className} >
       <Form
+      
         labelCol={{
           span: 4,
         }}
@@ -47,16 +49,21 @@ setFileList(user.avatar ? [{ url: `${backendUrl}${user.avatar}` }] : [])
           maxWidth: 600,
         }}
       >
-        <Form.Item label="Avatar" valuePropName="fileList" >
-          <div className='flex items-center gap-14'>
-            <Upload
+        <Form.Item  valuePropName="fileList" className=' ml-10 md:ml-9'  >
+          <div className='flex items-center justify-between    '>
+            <div className=' RowAvatar '>
+              <p className=' '>Avatar</p> <Upload
               listType="picture-card"
               fileList={fileList}
               onChange={handleChange}
+              className=' flex-1'
             >
               {fileList.length === 0 && <PlusOutlined />}
             </Upload>
-            <h1 className='text-2xl font-bold'>Edit Profile</h1>
+            
+            </div>
+           
+            <h1 className=' relative text-2xl font-bold  flex-grow md:flex-shrink text-center mr-5  md:left-10 '>Edit Profile</h1>
           </div>
         </Form.Item>
         <Form.Item label="UserName">

@@ -1,34 +1,22 @@
 import { useState, useEffect } from "react";
 import "jwt-decode"; // Correct import statement
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import { BrowserRouter as Router  } from "react-router-dom";
 import "@fontsource/roboto/300.css";
 import "@fontsource/roboto/400.css";
 import "@fontsource/roboto/500.css";
 import "@fontsource/roboto/700.css";
 import "./App.css";
-import Home from "./pages/Home";
-import Login from "./pages/Login";
-import Register from "./pages/Register";
 import { CommentsContext } from "./context/CommentsContext";
 import { WebSocketProvider } from "./context/WebSocketContext";
-import Protected from "../src/utils/Protected";
-import Sider from "./pages/MainSider";
-import MyPosts from "./pages/MyPosts";
-import Header from "./pages/MainHeader";
-import Favorites from "./pages/Favorites";
 import { useDispatch } from "react-redux";
-import Profile from "./pages/Profile";
 import { refreshUserAndToken } from "./features/userSlice";
 import Cookies from "universal-cookie";
 import { jwtDecode } from "jwt-decode";
-
+import Layout from "./Layout";
+import { WebSocketChatProvider} from "./hooks/useOpenChat"
 function App() {
-  const [posts, setPosts] = useState([]);
   const [comments, setComments] = useState([]);
-  const cookie = new Cookies();
-  const refreshToken = cookie.get("refreshToken");
   const dispatch = useDispatch();
-
   useEffect(() => {
     dispatch(refreshUserAndToken());
   }, [dispatch]);
@@ -51,26 +39,13 @@ console.log("refreshin after 1 min")
   return (
 <div style={{ height: "100vh" }}>
   <WebSocketProvider>
+    <WebSocketChatProvider>
     <CommentsContext.Provider value={{ comments, setComments }}>
       <Router>
-        <Header />
-
-          <Sider />
-
-          
-            <Routes>
-              <Route path="/login" element={<Login />} />
-              <Route path="/register" element={<Register />} />
-              <Route element={<Protected />}>
-                <Route path="/Favorites" element={<Favorites />} />
-                <Route path="/MyPosts" element={<MyPosts />} />
-                <Route path="/Profile" element={<Profile />} />
-                <Route path="/" element={<Home />} />
-              </Route>
-            </Routes>
-
+        <Layout/>
       </Router>
     </CommentsContext.Provider>
+    </WebSocketChatProvider>
   </WebSocketProvider>
 </div>
   );

@@ -1,4 +1,7 @@
-:where(.css-dev-only-do-not-override-161f05s).ant-upload-wrapper.ant-upload-picture-card-wrapper .ant-upload.ant-upload-select {
+:where(
+    .css-dev-only-do-not-override-161f05s
+  ).ant-upload-wrapper.ant-upload-picture-card-wrapper
+  .ant-upload.ant-upload-select {
   width: 70px; /* Customize width */
   height: 55px; /* Customize height */
 }
@@ -8,4 +11,20 @@
   /* background-color: rgba(139, 180, 240, 0.224); */
 }
 
-  /* background-image: linear-gradient(120deg, #8aaae5,#FFFFFF);} */
+/* background-image: linear-gradient(120deg, #8aaae5,#FFFFFF);} */
+.RowAvatar {
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+  align-items: center;
+}
+@media (max-width: 575px) {
+  .RowAvatar {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding-top: 5px;
+  }
+}
+
+

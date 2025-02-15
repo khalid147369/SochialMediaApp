@@ -5,7 +5,7 @@ import CommentResponse from "./CommentResponse";
 import { CommentsContext } from "../context/CommentsContext";
 import useSendComment from "../hooks/useSendComment";
 import useGetComment from "../hooks/useGetComment";
-import { useLocation } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import "./Post.css";
 import {
   EllipsisOutlined,
@@ -39,6 +39,7 @@ const Post = ({
   commentsLenght,
   loading,
   postColor,
+  userId,
 }) => {
   const [isLiked, setIsLiked] = useState(false);
   const [like, setLike] = useState(likes);
@@ -54,7 +55,6 @@ const Post = ({
 
   const location = useLocation();
   const dispatch = useDispatch();
-
   useEffect(() => {
     // Load the liked state for this post from localStorage
     const savedLikes = JSON.parse(localStorage.getItem("likes")) || {};
@@ -212,7 +212,7 @@ const Post = ({
         transition={{ duration: 0.5 }}
       >
         <Card
-          className=" relative postBackround rounded-none custom-card-actions h-fit overflow-hidden w-full px-0 mx-0   "
+          className=" relative postBackround rounded-none custom-card-actions h-fit overflow-hidden w-full px-0 mx-0 shadow-slate-500 shadow-sm  "
           actions={[
             <Popover
               key="ellipses"
@@ -247,9 +247,9 @@ const Post = ({
               <div className="ml-2">
                 <div className=" flex items-center gap-2">
                   {avatarSrc === null ? (
-                    <Avatar>{title[0]}</Avatar>
+                    <Link to={`/MainProfile/${userId}`}><Avatar>{title[0]}</Avatar></Link>
                   ) : (
-                    <Avatar src={`${backendUrl}${avatarSrc}`} />
+                    <Link to={`/MainProfile/${userId}`}><Avatar src={`${backendUrl}${avatarSrc}`} /></Link>
                   )}
                   <div>
                     <p className=" text-sm">{title}</p>

@@ -47,9 +47,12 @@ const {setSelectedKey} = useChangeMenu();
       case "account":
         setNavigateTo('/register');
         break;
-      case "profile":
+     case "profile":
+        setNavigateTo('/profile');
+        break;
+      case "MainProfile":
         setSelectedKey(0)
-        setNavigateTo('/Profile');
+        setNavigateTo(`/MainProfile`);
         break;
       default:
         break;
@@ -68,7 +71,7 @@ const {setSelectedKey} = useChangeMenu();
 
   return (
     <React.Fragment>
-      <Box sx={{ display: 'flex', alignItems: 'center', textAlign: 'center' }} >
+      <Box  sx={{  display: 'flex', alignItems: 'center', textAlign: 'center' }} >
         <Tooltip title="Account settings">
           <IconButton
             onClick={handleClick}
@@ -120,7 +123,7 @@ const {setSelectedKey} = useChangeMenu();
         transformOrigin={{ horizontal: 'right', vertical: 'top' }}
         anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
       >
-        <MenuItem onClick={() => handleClose("profile")}>
+        <MenuItem onClick={() => handleClose("MainProfile")}>
           <Avatar src={imageSrc} /> Profile
         </MenuItem>
         <Divider />
@@ -130,7 +133,7 @@ const {setSelectedKey} = useChangeMenu();
           </ListItemIcon>
           Add another account
         </MenuItem>
-        <MenuItem onClick={handleClose}>
+        <MenuItem onClick={()=>handleClose("profile")}>
           <ListItemIcon>
             <Settings fontSize="small" />
           </ListItemIcon>

@@ -7,6 +7,7 @@ import { useEffect } from "react";
 const initialState = {
   user: [],
   userLoading: false,
+  author:[],
   error: null,
 };
 
@@ -32,7 +33,24 @@ const refreshUserAndToken = createAsyncThunk(
   }
 );
 
+const getUserById = createAsyncThunk(
+  "user/getUserById",
+  async (userId, thunkAPI) => {
+    const token = cookie.get("token");
 
+    try {
+      const response = await axios.get(`${backendUrl}/api/Users/${userId}`,{
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      return response.data;
+    } catch (error) {
+      console.error("Failed to fetch user by ID:", error);
+      throw error;
+    }
+  }
+);
 
 const submitProfile = createAsyncThunk(
   "user/submitProfile",
@@ -100,10 +118,22 @@ const userSlice = createSlice({
       .addCase(submitProfile.rejected, (state, action) => {
         state.status = "failed";
         state.error = action.error.message;
+      })
+      // get user by id
+      .addCase(getUserById.pending, (state) => {
+        // state.userLoading = true;
+      })
+      .addCase(getUserById.fulfilled, (state, action) => {
+        // state.userLoading = false;
+        state.author = action.payload;
+      })
+      .addCase(getUserById.rejected, (state, action) => {
+        // state.userLoading = false;
+        state.error = action.error.message;
       });
   },
 });
 
 export const { setUser, clearUser } = userSlice.actions;
-export { refreshUserAndToken, submitProfile };
+export { refreshUserAndToken, submitProfile, getUserById };
 export default userSlice.reducer;

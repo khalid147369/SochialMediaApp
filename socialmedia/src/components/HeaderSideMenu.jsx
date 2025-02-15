@@ -10,6 +10,8 @@ import {
   HomeOutlined,
   BookOutlined,
   UploadOutlined,
+  WechatOutlined,
+  BellOutlined,
 } from '@ant-design/icons';
 import { Button, Menu } from 'antd';
 import { Link } from 'react-router-dom';
@@ -28,8 +30,13 @@ const items =[
     },
     {
       key: "3",
-      icon: <Link to={"/MyPosts"}><UploadOutlined  /></Link> ,
-      label: "My Posts",
+      icon: <Link to={"/Contacts"}><WechatOutlined />  </Link> ,
+      label: "Contacts",
+    },
+    {
+      key: "4",
+      icon: <Link to={"/Notifications"}>< BellOutlined />  </Link> ,
+      label: "Notifications",
     },
   ]
 const HeaderSideMenu = ({className ,onSelect,selectedKeys}) => {
