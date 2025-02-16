@@ -16,25 +16,9 @@ import Layout from "./Layout";
 import { WebSocketChatProvider} from "./hooks/useOpenChat"
 function App() {
   const [comments, setComments] = useState([]);
-  const dispatch = useDispatch();
-  useEffect(() => {
-    dispatch(refreshUserAndToken());
-  }, [dispatch]);
 
-  useEffect(() => {
-    const accessToken = localStorage.getItem("accessToken");
-    if (!accessToken) return;
-console.log("refreshin after 1 min")
-    const decoded = jwtDecode(accessToken); // Correct usage
-    const expiresAt = decoded.exp * 1000;
-    const bufferTime = 60000; // Refresh 1 minute before expiration
 
-    const timeoutId = setTimeout(() => {
-      dispatch(refreshUserAndToken());
-    }, expiresAt - Date.now() - bufferTime);
 
-    return () => clearTimeout(timeoutId);
-  }, [dispatch]);
 
   return (
 <div style={{ height: "100vh" }}>

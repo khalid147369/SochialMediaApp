@@ -23,7 +23,7 @@ export default function CommentTextArea({className,handleSendComment}) {
   return (
     <FormControl className={className} sx={{backgroundColor:'red'}}>
       <Textarea
-      className = { ' bg-gray-200'}
+      className = { ' bg-gray-200 rounded-none'}
       value={comment}
       onChange={(e) => setComment(e.target.value)}
         placeholder="Type something here…"

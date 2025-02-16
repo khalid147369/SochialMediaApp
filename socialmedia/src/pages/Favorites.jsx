@@ -42,9 +42,7 @@ function Favorites() {
   const isAvatarClosed = () => {
     setCollapsed(true);
   };
-  if( !userLoading &&user.length===0){
-    navigate("/login")
-    } 
+
   return (
       <Layout 
       // style={favorites.length === 0 ?  { height: "fit-content"  } :{ height: "calc(100vh - 20px)" }}

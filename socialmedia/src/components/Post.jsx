@@ -13,6 +13,7 @@ import {
   LikeFilled,
   CommentOutlined,
   DeleteOutlined,
+  CloseOutlined,
 } from "@ant-design/icons";
 import { motion } from "framer-motion";
 import ChatBubbleOutlineIcon from "@mui/icons-material/ChatBubbleOutline";
@@ -25,6 +26,8 @@ import { Button } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import { deletePosts } from "../features/myPostsSlice";
 import PublicIcon from "@mui/icons-material/Public";
+import { deleteAuthorPosts } from "../features/userSlice";
+import AddPostComponent from "./AddPostComponent";
 
 const { Meta } = Card;
 
@@ -40,6 +43,7 @@ const Post = ({
   loading,
   postColor,
   userId,
+  authorId
 }) => {
   const [isLiked, setIsLiked] = useState(false);
   const [like, setLike] = useState(likes);
@@ -126,10 +130,11 @@ const Post = ({
           <BookmarkBorderSharpIcon className=" " />
           <p>{isSavedText}</p>
         </Button>
-        {location.pathname === "/MyPosts" && (
+        {authorId === user.userId  && (
           <Button
             onClick={() => {
               dispatch(deletePosts(PostId));
+              dispatch(deleteAuthorPosts(PostId));
             }}
             onMouseEnter={() => setcolor2("text-white")}
             onMouseLeave={() => setcolor2("text-red-500")}
@@ -211,6 +216,7 @@ const Post = ({
         exit={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
       >
+        
         <Card
           className=" relative postBackround rounded-none custom-card-actions h-fit overflow-hidden w-full px-0 mx-0 shadow-slate-500 shadow-sm  "
           actions={[
@@ -310,9 +316,9 @@ const Post = ({
             style={{ transition: "2s" }}
             className="fixed   inset-0 bg-gray-100   bg-opacity-55  flex items-center justify-center z-20"
           >
-            <Card className="w-96 px-0 postBackround ">
-              <div className=" cursor-pointer" onClick={handleCloseCommentBox}>
-                X
+            <Card className="w-96 px-0 postBackround overflow-hidden  ">
+              <div className=" relative -top-4 left-4 hover:bg-slate-400 hover:bg-opacity-15 w-fit px-2 cursor-pointer" onClick={handleCloseCommentBox}>
+               <CloseOutlined/>
               </div>
               {cmnts.length == 0 ? (
                 <p className="overflow-y-auto p-5 max-h-80 w-full ">
@@ -338,7 +344,8 @@ const Post = ({
                 </div>
               )}
               <CommentTextArea
-                className="h-24 w-full mt-5 bg-slate-300"
+              
+                className=" relative top-6   h-24 w-full mt-5 bg-slate-300"
                 handleSendComment={(cm) => handleSendComment(cm)}
               />
             </Card>

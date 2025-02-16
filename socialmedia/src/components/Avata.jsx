@@ -15,8 +15,10 @@ import { useNavigate } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import Cookies from 'universal-cookie';
 import useChangeMenu from '../hooks/usechangeMenu';
+import { useSelector } from 'react-redux';
 
 export default function Avata({ isClicked, content, imageSrc = '' }) {
+  const {user} = useSelector(state=>state.user)
   Avata.propTypes = {
     isClicked: PropTypes.func.isRequired,
     content: PropTypes.string.isRequired,
@@ -52,7 +54,7 @@ const {setSelectedKey} = useChangeMenu();
         break;
       case "MainProfile":
         setSelectedKey(0)
-        setNavigateTo(`/MainProfile`);
+        setNavigateTo(`/MainProfile/${user.userId}`);
         break;
       default:
         break;
@@ -137,7 +139,7 @@ const {setSelectedKey} = useChangeMenu();
           <ListItemIcon>
             <Settings fontSize="small" />
           </ListItemIcon>
-          Settings
+          Edit Profile
         </MenuItem>
         <MenuItem onClick={handleLogout}>
           <ListItemIcon>

@@ -11,7 +11,7 @@ import "../App.css";
 import Cookies from "universal-cookie";
 import Avata from "../components/Avata";
 import { backendUrl } from "../config";
-function MyPosts({ myPosts, loading, errors, children ,pageNumber}) {
+function MyPosts({ myPosts, loading, errors, children ,pageNumber ,authorId}) {
   const { Content } = Layout;
   const [isBottom ,setIsBottom]   = useState(false);
   const dispatch = useDispatch();
@@ -49,11 +49,7 @@ const containerRef = useRef()
     }
   }, [errors, navigate]);
 
-  useEffect(() => {
-    if (!userLoading && user.length === 0) {
-      navigate("/login");
-    }
-  }, [user, userLoading, navigate]);
+
 
   const isAvatarClosed = () => {
     setCollapsed(true);
@@ -67,7 +63,6 @@ const containerRef = useRef()
       onScroll={handleScroll}
       ref={containerRef}
     >
-      <Button onClick={()=> dispatch(getNextUserPosts(pageNumber +1))}>get posts</Button>
       <div className=" mb-1 h-fit">{children}</div>
       <div className="fixed z-10 right-3 top-3 md:right-5 md:top-6 h-fit w-fit ">
         <Avata
@@ -92,11 +87,11 @@ const containerRef = useRef()
               style={{ height: "calc(100vh - 64px)" }}
               className="  w-screen"
             >
+              {/* <PostsSkeleton />
               <PostsSkeleton />
-              <PostsSkeleton />
-              <PostsSkeleton />
+              <PostsSkeleton /> */}
             </div>
-          ) : myPosts && myPosts != [] && myPosts.length === 0 ? (
+          ) : myPosts  && myPosts.length === 0 ? (
             <Empty
               className=" absolute transform -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2"
               description={"no posts to show"}
@@ -115,6 +110,7 @@ const containerRef = useRef()
                 commentsLenght={post.commentsLenght}
                 createdAt={post.publicatedAt}
                 postColor={post.postColor}
+                authorId={authorId}
               />
             ))
            

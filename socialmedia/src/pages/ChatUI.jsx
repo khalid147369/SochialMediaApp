@@ -47,10 +47,10 @@ useEffect(()=>{
   };
 
   return (
-    <div className="min-h-screen bg-gray-100 flex items-center justify-center md:p-4">
-      <div className="flex flex-col w-full h-screen max-w-2xl bg-white shadow-lg overflow-hidden">
+    <div className="min-h-screen h-screen bg-gray-100 flex items-center justify-center md:p-4">
+      <div className="flex flex-col w-full h-full max-w-2xl bg-white shadow-lg overflow-hidden">
         {/* Chat Header */}
-        <div className="flex items-center gap-2 bg-blue-500 text-white px-6 py-4">
+        <div className="flex absolute w-full max-w-2xl  z-10  items-center gap-2 bg-blue-500 text-white px-6 pl-0">
           <button type="button" onClick={() =>selectedContact(null) } className="flex w-fit items-center focus:outline-none">
             <ArrowLeft />
           </button>
@@ -59,7 +59,7 @@ useEffect(()=>{
           <span>{contact.userName}</span>
         </div>
         {/* Messages Container */}
-        <div className="h-[500px] overflow-y-auto p-6 bg-white">
+        <div  className=" min-h-screen overflow-y-auto p-6 bg-white ">
           {messages.filter(mess =>mess.userId ==contact.id || mess.senderId ==contact.id || mess.senderId ==user.userId || mess.receiverID==contact.id ).map((message) => (
             <>
           <ChatMessage
@@ -75,7 +75,7 @@ useEffect(()=>{
         </div>
 
         {/* Message Input */}
-        <form onSubmit={handleSend} className="p-4 sticky bottom-0 border-t border-gray-200">
+        <form onSubmit={handleSend} className="p-4 sticky  mt-0  bottom-0 border-t border-gray-200">
           <div className="flex gap-2">
             <input
               type="text"
@@ -86,10 +86,11 @@ useEffect(()=>{
             />
             <button
               type="submit"
-              className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition-colors"
+              className="bg-blue-500 flex items-center gap-3 justify-center w-40 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition-colors"
               disabled={!newMessage.trim()}
             >
-              <Send className="w-5 h-5" />
+
+              <p>Send</p><Send className="w-5 h-5 " />
             </button>
           </div>
         </form>

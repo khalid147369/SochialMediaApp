@@ -21,8 +21,10 @@ import {
   checkIsfriend,
 } from "../features/friendsSlice";
 import PostsSkeleton from './PostsSkeleton'
+import AddPostComponent from "./AddPostComponent";
 function MainProfileHeader({ author ,AuthorLoading }) {
   const [isUser, setIsUser] = useState(false);
+  const [show, setShow] = useState(false);
   const { user  } = useSelector((state) => state.user);
   const { isFriend ,loading } = useSelector((state) => state.friends);
   const navigate = useNavigate();
@@ -65,6 +67,8 @@ return (<div>
 
   return (
     <Card className="relative h-96">
+      {show?<AddPostComponent onClose={()=>setShow(false)} />:""}
+      
       <div className="absolute bottom-0 left-0 w-full h-1/2 z-20 postBackround px-4 ">
         <div className=" relative bg-white w-36 h-36  rounded-full bottom-24 overflow-hidden">
           {author.avatar === undefined || author.avatar === null ? (
@@ -79,7 +83,7 @@ return (<div>
           </h1>
           {isUser ? (
             <>
-              <Button>
+              <Button onClick={()=>setShow(true)}>
                 <PlusOutlined />
                 add post
               </Button>

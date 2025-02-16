@@ -9,7 +9,7 @@ export function ChatMessage({ message, isReceived, timestamp ,Contactavatar,user
     
 
     <div
-      className={`flex ${isReceived ? "justify-start" : "justify-end"} mb-4`}
+      className={`flex ${isReceived ? "justify-start" : "justify-end"} mb-4 `}
     >
       {isReceived && (
         <div className="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center mr-2">
@@ -37,7 +37,7 @@ export function ChatMessage({ message, isReceived, timestamp ,Contactavatar,user
         </p>
       </div>
       {!isReceived && (
-        <div className="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center ml-2">
+        <div className="w-8  h-8 rounded-full bg-blue-100 flex items-center justify-center ml-2">
           {userAvatar? <Avatar src={`${backendUrl}${userAvatar}`}/>:<User className="w-5 h-5 text-blue-500" /> }
 
         </div>

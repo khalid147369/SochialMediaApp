@@ -86,28 +86,16 @@ const Home = () => {
       userId={post.userId}
     />
   ));
-  if (user == []) {
-    navigate("/login");
-  }
-  if (!user && !userLoading && (!user || user.length === 0)) {
-    navigate("/login");
-  }
-  return (
-    <Layout
-      // style={
-      //   posts.length === 0 ? { height: "fit-content" } : { height: "100vh" }
-      // }
-      style={{ height: "calc(100vh - 64px)" }}
-      onScroll={handleScroll}
-      className=" py-0 my-0  lg:max-w-5xl md:mx-auto md:p-10   overflow-y-auto   "
-    >
+
+  const addPostComponent = (
+    <>
       <div className="postBackround h-fit mb-1 py-5 shadow-slate-500 shadow-sm ">
         <Row className="flex border  justify-center px-4 py-2 rounded-full w-fit gap-8 items-center  mx-auto ">
           <Col>
             {user.avatar ? (
               <Avatar src={`${backendUrl}/${user.avatar}`} />
             ) : (
-              <Avatar>{user.userName && user.userName[0] }</Avatar>
+              <Avatar>{user.userName && user.userName[0]}</Avatar>
             )}
           </Col>
           <Col>
@@ -120,7 +108,6 @@ const Home = () => {
           </Col>
         </Row>
       </div>
-
       {show ? (
         <PopUpBox className="custom-popup-box" show={() => setShow(false)}>
           <TextAreaCBT className=" md:mt-0  flex gap-2 mx-auto items-center" />
@@ -128,6 +115,18 @@ const Home = () => {
       ) : (
         ""
       )}
+    </>
+  );
+  return (
+    <Layout
+      // style={
+      //   posts.length === 0 ? { height: "fit-content" } : { height: "100vh" }
+      // }
+      style={{ height: "calc(100vh - 64px)" }}
+      onScroll={handleScroll}
+      className=" py-0 my-0  lg:max-w-5xl md:mx-auto md:p-10   overflow-y-auto   "
+    >
+      {addPostComponent}
 
       <Layout
         className=" bg-transparent py-0 my-0  "

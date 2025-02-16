@@ -11,6 +11,7 @@ const initialState = {
   pageNumber:2,
   author:[],
   error: null,
+  refreshFaild:false,
   userPostsLoading:false,
 };
 
@@ -115,8 +116,17 @@ const userSlice = createSlice({
     setUser: (state, action) => {
       state.user = action.payload;
     },
+    setRefreshFaild: (state, action) => {
+      state.refreshFaild = false;
+    },
     clearUser: (state) => {
       state.user = null;
+    },
+    deleteAuthorPosts: (state ,action)=> {
+      state.author.posts = state.author.posts.filter(pt=>pt.id!==action.payload) ;
+    },
+    addPostToAuthorPosts: (state ,action)=> {
+      state.author.posts = [action.payload,...state.author.posts]  ;
     },
   },
   extraReducers: (builder) => {
@@ -125,12 +135,16 @@ const userSlice = createSlice({
         state.userLoading = true;
       })
       .addCase(refreshUserAndToken.fulfilled, (state, action) => {
-        state.userLoading = false;
         state.user = action.payload;
+        state.userLoading = false;
+
+
       })
       .addCase(refreshUserAndToken.rejected, (state, action) => {
-        state.userLoading = false;
         state.error = action.error.message;
+        state.userLoading = false;
+        state.refreshFaild =true;
+        
       })
       //Update user
       .addCase(submitProfile.pending, (state) => {
@@ -179,6 +193,6 @@ const userSlice = createSlice({
   },
 });
 
-export const { setUser, clearUser } = userSlice.actions;
+export const { setUser, clearUser ,deleteAuthorPosts ,addPostToAuthorPosts ,setRefreshFaild} = userSlice.actions;
 export { refreshUserAndToken, submitProfile, getUserById };
 export default userSlice.reducer;

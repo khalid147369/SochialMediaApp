@@ -4,6 +4,8 @@ import {
   Route,
   Routes,
   useLocation,
+  useNavigate,
+  Navigate,
 } from "react-router-dom";
 
 import "./App.css";
@@ -20,9 +22,7 @@ import MainProfile from "./pages/MainProfile";
 import Contacts from "./pages/Contacts";
 import Notifications from "./pages/Notifications"
 function Layout() {
-
   const location = useLocation();
-
   const hideHeaderOnRoutes = ["/login", "/register", "/Contacts", "/Profile"]; // Add routes where you don't want the header
 
   const headerState = hideHeaderOnRoutes.includes(location.pathname) || /^\/Contacts\/.+$/.test(location.pathname)
@@ -35,7 +35,7 @@ function Layout() {
       <Routes>
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
-        <Route element={<Protected />}>
+        <Route element={<Protected /> }>
           <Route path="/Favorites" element={<Favorites />} />
           <Route path="/Profile" element={<Profile />} />
           <Route path="/Contacts/:id?" element={<Contacts />} />
@@ -43,6 +43,8 @@ function Layout() {
           <Route path="/MainProfile/:id" element={<MainProfile />} />
           <Route path="/" element={<Home />} />
         </Route>
+        <Route path="*" element={<Navigate to="/login" replace />} />
+
       </Routes>
     </>
   );

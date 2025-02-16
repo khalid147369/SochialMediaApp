@@ -14,7 +14,7 @@ const {myPosts ,loading ,errors} = useSelector(state=>state.myPosts)
     dispatch(getUserById(id))
   },[dispatch,id])
   return (
-    <MyPosts myPosts={author.posts||[]} loading={loading} errors={errors} pageNumber={pageNumber} >
+    <MyPosts authorId ={author.userId} myPosts={author.posts||[]} loading={loading} errors={errors} pageNumber={pageNumber} >
       <MainProfileHeader author={author||[]} AuthorLoading={userAuthor}  />
     </MyPosts>
   );

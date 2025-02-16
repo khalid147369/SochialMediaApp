@@ -16,8 +16,9 @@ const PostColorPicker = ({className ,onChangeComplete}) => {
       '#FF9800',
       '#00C853',
       '#607D8B',
-      '#f0f2f5',
-      'dce6f1',
+      '#1369e0',
+      '#dfef3a',
+      '#f84936',
     ], // Linear gradient colors
   });
 
@@ -26,6 +27,7 @@ const PostColorPicker = ({className ,onChangeComplete}) => {
           className={` h-fit self-center ${className} `}
           presets={presets}
           defaultValue="#1677ff"
+          
         />
 
         

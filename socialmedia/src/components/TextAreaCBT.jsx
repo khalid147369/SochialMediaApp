@@ -11,7 +11,7 @@ const TextAreaCBT = ({ className }) => {
   const [description, setDescription] = useState("");
   const [image, setImage] = useState(null);
   const [showColorPicker, setShowColorPicker] = useState(false);
-  const [postColor, setPostColor] = useState("#fff");
+  const [postColor, setPostColor] = useState("#1677ff");
   const dispatch = useDispatch();
   const { ws } = useWebSocket();
   const textAreaRef = useRef(null);

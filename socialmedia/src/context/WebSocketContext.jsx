@@ -5,6 +5,7 @@ import {sendPostAction}from '../features/postsSlice'
 import { useDispatch, useSelector } from 'react-redux';
 import { backendUrlWs } from "../config";
 import Cookies from "universal-cookie";
+import { addPostToAuthorPosts } from "../features/userSlice";
 export const WebSocketProvider = ({ children  }) => {
   const wsRef = useRef(null);
   const [connected, setConnected] = useState(false);
@@ -38,6 +39,8 @@ export const WebSocketProvider = ({ children  }) => {
           const data = JSON.parse(event.data);
           setMessages((prev) => [...prev, data]);
           dispatch(sendPostAction(data))
+          dispatch(addPostToAuthorPosts(data))
+          
         } catch (event) {
           console.error("Failed to parse message", event.data);
         }
